@@ -26,10 +26,9 @@ VentaCtrl.getVentas = async (req, res) => {
         });
     }    
 }
-
 VentaCtrl.getOnlySale = async (req, res) => {
     try {        
-        const query = { "ID_Venta" : req.params.id };               
+        const query = { "Id_Venta" : req.params.id };               
         Ventas.findOne(query, (err, venta) => {
             if (venta) {    
                 // Si hay registros en la DB            
@@ -53,21 +52,20 @@ VentaCtrl.getOnlySale = async (req, res) => {
         });
     }
 }
-
 VentaCtrl.getManySales = async (req, res) => {
     try {   
         let query = {};            
         if (req.params.key == "Fecha_Venta") {
             query = { "Fecha_Venta" : req.params.value };
         } else {
-            if (req.params.key == "ID_Cliente") {
-                query = { "ID_Cliente" : req.params.value };
+            if (req.params.key == "Id_Cliente") {
+                query = { "Id_Cliente" : req.params.value };
             } else {
-                if(req.params.key == "ID_Vendedor"){
-                    query = { "ID_Vendedor" : req.params.value };
+                if(req.params.key == "Id_Vendedor"){
+                    query = { "Id_Vendedor" : req.params.value };
                 }                
             }
-        }
+        } 
         Ventas.find(query, (err, ventas) => {            
             if (ventas) {    
                 // Si hay registros en la DB            
@@ -91,10 +89,10 @@ VentaCtrl.getManySales = async (req, res) => {
         });
     }
 }
-
 VentaCtrl.registrarVenta = async (req, res) => {    
     try {
-        Ventas.findOne({ ID_Venta: req.body.ID_Venta }, (err, salesBD) => {
+        const query = { "Id_Venta" : req.body.Id_Venta }
+        Ventas.findOne(query, (err, salesBD) => {
             if(!salesBD){  
                 const ventasTemp = req.body;                
                 const ventaARegistrar = new Ventas(ventasTemp);           
@@ -108,7 +106,7 @@ VentaCtrl.registrarVenta = async (req, res) => {
             } else {
                 if (res.statusCode == 200) {
                     res.send({
-                        message: `La venta con codigo ${ req.body.ID_Venta } ya se encuentra registrada`, 
+                        message: `La venta con codigo ${ req.body.Id_Venta } ya se encuentra registrada`, 
                         msg: 1
                     });
                 }                
@@ -120,23 +118,22 @@ VentaCtrl.registrarVenta = async (req, res) => {
         });
     }      
 }
-
 VentaCtrl.updateVenta = (req, res) => {
     try {
-        const query = { "ID_Venta": req.body.ID_Venta };
+        const query = { "Id_Venta": req.body.Id_Venta };
         const body = req.body;
         Ventas.findOne(query, (err, venta) => {
             if (venta) {
                 Ventas.updateOne(query, body, (err, venta) => {
                     res.status(200).send({
-                        message: `La venta con ID ${ req.body.ID_Venta } fue correctamente Actualizada`,
+                        message: `La venta con ID ${ req.body.Id_Venta } fue correctamente Actualizada`,
                         msg: 0
                     });
                 });
             } else {
                 if (res.statusCode == 200) {
                     res.send({
-                        message: `La venta con ID ${ req.body.ID_Venta } No se encuentra registrada`, 
+                        message: `La venta con ID ${ req.body.Id_Venta } No se encuentra registrada`, 
                         msg: 1
                     });
                 }                  
@@ -148,10 +145,9 @@ VentaCtrl.updateVenta = (req, res) => {
         });
     }
 }
-
 VentaCtrl.deleteVenta = (req, res) => {
     try {
-        const query = { "ID_Venta": req.params.id };             
+        const query = { "Id_Venta": req.params.id };             
         Ventas.findOneAndDelete(query, (err, venta) => {
             if (venta) {                
                 // Si el Id esta registrado continua

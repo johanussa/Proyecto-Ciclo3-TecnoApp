@@ -26,34 +26,6 @@ UsersCtrl.getUsuario = async(req, res) => {
         });
     } 
 }
-UsersCtrl.registrarUsuario = async(req, res) => {
-    try {
-        Users.findOne({ Codigo: req.body.Codigo }, (err, usersBD) => {
-            if(!usersBD){  
-                const userTemp = req.body;                
-                const userData = new Ventas(userTemp);           
-                userData.save((err, userRegistrado) => {                    
-                    res.status(200).send({
-                        userRegistrado,
-                        message: 'Usuario registrado Exitosamente',
-                        msg: 0                        
-                    });                    
-                });            
-            } else {
-                if (res.statusCode == 200) {
-                    res.send({
-                        message: `El Usuario con codigo ${ req.body.Codigo } ya se encuentra registrado`, 
-                        msg: 1
-                    });
-                }                
-            }
-        });
-    } catch (error) {
-        res.status(500).send({
-            message: `Error al guardar el nuevo usuario en la base de datos: ${ err } - ${ error }`
-        });
-    }      
-}
 UsersCtrl.getOnlyUsuario = async (req, res) => {
     try {   
         const query = { "Codigo" : req.params.id };                          
@@ -78,6 +50,34 @@ UsersCtrl.getOnlyUsuario = async (req, res) => {
             message: `Error de conexion a la DB ${ err }, No se pudo Buscar usuario ${ error }`
         });
     }
+}
+UsersCtrl.registrarUsuario = async(req, res) => {
+    try {
+        Users.findOne({ Codigo: req.body.Codigo }, (err, usersBD) => {
+            if(!usersBD){  
+                const userTemp = req.body;                
+                const userData = new Users(userTemp);           
+                userData.save((err, userRegistrado) => {                    
+                    res.status(200).send({
+                        userRegistrado,
+                        message: 'Usuario registrado Exitosamente',
+                        msg: 0                        
+                    });                    
+                });            
+            } else {
+                if (res.statusCode == 200) {
+                    res.send({
+                        message: `El Usuario con codigo ${ req.body.Codigo } ya se encuentra registrado`, 
+                        msg: 1
+                    });
+                }                
+            }
+        });
+    } catch (error) {
+        res.status(500).send({
+            message: `Error al guardar el nuevo usuario en la base de datos: ${ err } - ${ error }`
+        });
+    }      
 }
 UsersCtrl.updateUsuario = async(req, res) => {
     try {

@@ -26,37 +26,10 @@ ProductoCtrl.getProducto = async (req, res) => {
         });
     }
 }
-ProductoCtrl.registrarProducto = async(req, res) => {
-    try {
-        Producto.find({ Id_Producto : req.body.Id_Producto }, (err, productoBD) => {
-            if(!productoBD){  
-                const prodTemp = req.body;                
-                const dataProducto = new Ventas(prodTemp);           
-                dataProducto.save((err, prodRegistrado) => {                    
-                    res.status(200).send({
-                        prodRegistrado,
-                        message: 'Producto registrado Exitosamente',
-                        msg: 0                        
-                    });                    
-                });            
-            } else {
-                if (res.statusCode == 200) {
-                    res.send({
-                        message: `El Producto con codigo ${ req.body.Id_Producto } ya se encuentra registrado`, 
-                        msg: 1
-                    });
-                }                
-            }
-        });        
-    } catch (error) {
-        res.status(500).send({
-            message: `Error al guardar una nueva venta en la base de datos: ${ err } - ${ error }`
-        });
-    }
-}
 ProductoCtrl.getOnlyProduct = async (req, res) => {
-    try {                            
-        Producto.findOne({_id: req.params.id}, (err, productoBD) => {            
+    try {   
+        const query = { "Id_Producto": req.params.id };                         
+        Producto.findOne(query, (err, productoBD) => {            
             if (productoBD) {    
                 // Si hay registros en la DB            
                 res.status(200).send({ 
@@ -79,22 +52,51 @@ ProductoCtrl.getOnlyProduct = async (req, res) => {
         });
     }
 }
+ProductoCtrl.registrarProducto = async(req, res) => {
+    try {
+        const query = { "Id_Producto" : req.body.Id_Producto };
+        Producto.findOne(query, (err, productoBD) => {
+            if(!productoBD){  
+                const prodTemp = req.body;                
+                const dataProducto = new Producto(prodTemp);           
+                dataProducto.save((err, prodRegistrado) => {                    
+                    res.status(200).send({
+                        prodRegistrado,
+                        message: 'Producto registrado Exitosamente',
+                        msg: 0                        
+                    });                    
+                });            
+            } else {
+                if (res.statusCode == 200) {
+                    res.send({
+                        message: `El Producto con codigo ${ req.body.Id_Producto } ya se encuentra registrado`, 
+                        msg: 1
+                    });
+                }                
+            }
+        });        
+    } catch (error) {
+        res.status(500).send({
+            message: `Error al guardar una nueva venta en la base de datos: ${ err } - ${ error }`
+        });
+    }
+}
 ProductoCtrl.updateProducto = async ( req, res ) => {    
     try {
-        const query = { "Id_Producto": req.params.producto_id };
+        const query = { "Id_Producto": req.body.Id_Producto };
         const productoActualizar = req.body;        
         Producto.findOne(query, (err, prod) => {
             if (prod) {
                 Producto.updateOne(query, productoActualizar, (err, prod) => {
                     res.status(200).send({
-                        message: `El Producto con ID ${ req.body.ID_Venta } fue correctamente Actualizado`,
+                        message: `El Producto con ID ${ req.body.Id_Producto } fue correctamente Actualizado`,
                         msg: 0
                     });
                 });
             } else {
                 if (res.statusCode == 200) {
                     res.send({
-                        message: `El Producto con ID ${ req.body.ID_Venta } No se encuentra registrado`, 
+                        message: `El Producto con ID ${ req.body.Id_Producto } No se encuentra registrado`, 
                         msg: 1
                     });
                 }                  
@@ -108,18 +110,18 @@ ProductoCtrl.updateProducto = async ( req, res ) => {
 }
 ProductoCtrl.deleteProducto = async(req, res) => {
     try {
-        const query = { "Id_Producto": req.params.producto_id };             
+        const query = { "Id_Producto": req.params.id };             
         Producto.findOneAndDelete(query, (err, prod) => {
             if (prod) {                
                 // Si el Id esta registrado continua
                 res.status(200).send({                    
-                    message: `El producto con ID ${ req.params.producto_id } fue correctamente Eliminado`,
+                    message: `El producto con ID ${ req.params.id } fue correctamente Eliminado`,
                     msg: 0
                 });
             } else {                
                 if (res.statusCode == 200) {
                     res.send({
-                        message: `El producto con ID ${ req.params.producto_id } No se encuentra registrado`, 
+                        message: `El producto con ID ${ req.params.id } No se encuentra registrado`, 
                         msg: 1
                     });                    
                 }                                                
