@@ -1,5 +1,5 @@
 const VentaCtrl = {};
-const Ventas = require('../models/ventas.model');
+const Ventas = require('../models/sales.model');
 
 VentaCtrl.getVentas = async (req, res) => {
     try {
@@ -8,7 +8,7 @@ VentaCtrl.getVentas = async (req, res) => {
                 // Si hay registros en la DB            
                 res.status(200).send({ 
                     ventas, 
-                    message: `Metodo Get ralizado Correctamente`,
+                    message: `Metodo Get realizado Correctamente`,
                     msg: 0
                 });                
             } else {
@@ -35,7 +35,7 @@ VentaCtrl.getOnlySale = async (req, res) => {
                 // Si hay registros en la DB            
                 res.status(200).send({ 
                     venta, 
-                    message: `Busqueda ralizada Correctamente`,
+                    message: `Busqueda realizada Correctamente`,
                     msg: 0
                 });                
             } else {
@@ -73,7 +73,7 @@ VentaCtrl.getManySales = async (req, res) => {
                 // Si hay registros en la DB            
                 res.status(200).send({ 
                     ventas, 
-                    message: `Metodo Get ralizado Correctamente`,
+                    message: `Metodo Get realizado Correctamente`,
                     msg: 0
                 });                
             } else {
@@ -94,23 +94,10 @@ VentaCtrl.getManySales = async (req, res) => {
 
 VentaCtrl.registrarVenta = async (req, res) => {    
     try {
-        Ventas.findOne({ ID_Venta: req.body.ID_Venta }, (err, ventasEnBaseDeDatos) => {
-            if(!ventasEnBaseDeDatos){  // Si no se encuentra la venta se guarda               
-                let ventasTemp = {
-                    ID_Venta : req.body.ID_Venta,
-                    ID_Producto: req.body.ID_Producto,
-                    Cantidad: req.body.Cantidad,
-                    Precio_Unitario: req.body.Precio_Unitario,                
-                    Valor_Total: req.body.Valor_Total,          
-                    Fecha_Venta: req.body.Fecha_Venta,                
-                    ID_Cliente: req.body.ID_Cliente,                
-                    Nom_Cliente: req.body.Nom_Cliente,                
-                    Nom_Vendedor: req.body.Nom_Vendedor,                
-                    ID_Vendedor: req.body.ID_Vendedor,                
-                    Estado_Venta: req.body.Estado_Venta                
-                }
-                let ventaARegistrar = new Ventas(ventasTemp);
-           
+        Ventas.findOne({ ID_Venta: req.body.ID_Venta }, (err, salesBD) => {
+            if(!salesBD){  
+                const ventasTemp = req.body;                
+                const ventaARegistrar = new Ventas(ventasTemp);           
                 ventaARegistrar.save((err, ventaRegistrada) => {                    
                     res.status(200).send({
                         ventaRegistrada,
@@ -180,7 +167,7 @@ VentaCtrl.deleteVenta = (req, res) => {
                     });                    
                 }                                                
             }            
-        })                
+        });                
     } catch (error) {
         res.status(500).send({
             message: `Error de conexion a la DB ${ err }, No se pudo Eliminar ${ error }`
