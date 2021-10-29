@@ -1,0 +1,26 @@
+#bodyWelcome {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(22, 83, 148);
+    background-image: url("/src/components/login/img/FondoLogin.jpg");
+    background-repeat: no-repeat;    
+    background-size: cover;
+    font-family: sans-serif;
+    height: calc(100vh - 61px);
+}
+#titleMainWel {
+    text-align: center;
+    color: antiquewhite;
+    font-size: 50px;
+    text-shadow: 2px 2px 3px black;    
+}
+#title2Wel {
+    text-align: center;
+    color: antiquewhite;
+    margin-bottom: 40px;
+}
+.parrWelcome {
+    text-align: center;
+    color: antiquewhite;
+    font-size: 15px;
+}

@@ -4,8 +4,10 @@ import Logo from './img/TecnoApp.png';
 import LogoGoogle from './img/IconGoogle.png';
 import LogoFace from './img/IconFace.png';
 import logoInsta from './img/IconInsta.png';
+import { useAuth0 } from "@auth0/auth0-react";
 
-function Login() {
+function LoginPage() {
+    const { loginWithRedirect } = useAuth0();
     return (
         <div id="bodyMain">            
             <div className="login-box">
@@ -21,7 +23,8 @@ function Login() {
                     <a className="linkLogin" href="#">No tienes una cuenta ?</a> 
                     <p className="parraf">_________ O Continuar con ... _________</p>
                     <div className="iconsBox">
-                        <a href="#"><img className="iconsSocial len"  src={ LogoGoogle } alt="Google"/></a>
+                        <a href="#" ><img className="iconsSocial len" src={ LogoGoogle } alt="Google" 
+                            onClick={() => loginWithRedirect()}/></a>
                         <a href="#"><img className="iconsSocial len" src={ LogoFace } alt="Facebook"/></a>
                         <a href="#"><img className="iconsSocial" src={ logoInsta } alt="Instagram"/></a>
                     </div>
@@ -32,4 +35,4 @@ function Login() {
     )
 }
 
-export default Login
+export default LoginPage
