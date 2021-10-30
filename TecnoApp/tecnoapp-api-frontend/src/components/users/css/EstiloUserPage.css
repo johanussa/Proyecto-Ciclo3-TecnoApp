@@ -1,0 +1,36 @@
+#iconUser {
+    width: 60px;
+    float: left;
+    margin: 40px 20px 10px 0px;
+}
+#titleGesUser {
+    float: left;
+    margin: 45px 20px 10px 0px;
+    text-shadow: 1px 1px 3px rgb(53, 92, 150);    
+}
+.divTitleUser {
+    margin-top: 120px;    
+}
+#text {
+    color: rgb(1, 69, 105);
+    border-color: rgb(1, 54, 97);
+}
+.nav-tabs {
+    border-color: rgb(1, 54, 97);
+    margin-left: 55px;
+    margin-right: 55px;
+}
+.iconsEditUser {
+    width: 20px;
+    margin: 3px;
+}
+#btnEditUser {
+    margin-right: 10px;
+}
+.btnEditUser {
+    border: none;
+}
+#modalUserolor {
+    background-color: rgb(2, 129, 240);
+    color: aliceblue;
+}
