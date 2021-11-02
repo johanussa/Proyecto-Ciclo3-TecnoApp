@@ -9,11 +9,12 @@
     text-shadow: 1px 1px 3px rgb(53, 92, 150);    
 }
 .divTitleUser {
-    margin-top: 120px;    
+    margin-top: 90px;    
 }
 #text {
     color: rgb(1, 69, 105);
     border-color: rgb(1, 54, 97);
+    border-bottom: none;
 }
 .nav-tabs {
     border-color: rgb(1, 54, 97);
@@ -22,15 +23,29 @@
 }
 .iconsEditUser {
     width: 20px;
-    margin: 3px;
 }
 #btnEditUser {
     margin-right: 10px;
 }
 .btnEditUser {
     border: none;
+    background: none;
 }
 #modalUserolor {
     background-color: rgb(2, 129, 240);
     color: aliceblue;
 }
+#divSearch {
+    width: 30%;
+    height: 50px;
+    position: relative;
+    border: 1px solid rgb(1, 54, 97) !important;
+    top: 70px;
+    left: -70px;    
+}
+#titleSearchUser {
+    margin-top: 5px;
+    margin-left: 15px;
+    text-shadow: 1px 1px 3px rgb(53, 92, 150); 
+}
+

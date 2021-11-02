@@ -9,7 +9,7 @@ import ProductsPage from "./components/products/ProductsPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   return (
     <Router>
       { isAuthenticated ? <Navbar /> : null }      
