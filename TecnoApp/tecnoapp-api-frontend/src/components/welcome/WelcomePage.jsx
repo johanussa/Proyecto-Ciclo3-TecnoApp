@@ -1,7 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
 import './css/EstiloWelcome.css';
+import axios from 'axios';
 
 function WelcomePage() {
+
+    const { user, isAuthenticated } = useAuth0();                          
+
+    useEffect(() => {         
+        if(isAuthenticated) { 
+            let arrayCodigo = new Uint16Array(1);
+            window.crypto.getRandomValues(arrayCodigo);              
+            let Codigo = arrayCodigo[0]; let Nombre = user.name; let Email = user.email;
+            let Rol = 'Indefinido'; let Estado = 'Indefinido';
+            const newuser = { Codigo, Nombre, Email, Rol, Estado };
+            console.log(newuser);
+            axios.post('http://localhost:3001/api/usuarios/' + Email, newuser)
+            .then(res => {
+                res.data.msg ? console.log(res.data.message) : console.log(res.data.message); 
+            });
+        };             
+    }, []);
+
     return (
         <div id="bodyWelcome"> <br /><br /><br /><br />
             <h1 id="titleMainWel">¡BIENVENIDOS A TECNOAPP!</h1>

@@ -53,7 +53,8 @@ UsersCtrl.getOnlyUsuario = async (req, res) => {
 }
 UsersCtrl.registrarUsuario = async(req, res) => {
     try {
-        Users.findOne({ Codigo: req.body.Codigo }, (err, usersBD) => {
+        const query = { Email : req.params.email }
+        Users.findOne(query, (err, usersBD) => {
             if(!usersBD){  
                 const userTemp = req.body;                
                 const userData = new Users(userTemp);           
@@ -67,7 +68,7 @@ UsersCtrl.registrarUsuario = async(req, res) => {
             } else {
                 if (res.statusCode == 200) {
                     res.send({
-                        message: `El Usuario con codigo ${ req.body.Codigo } ya se encuentra registrado`, 
+                        message: `El Usuario con email ${ req.params.email } ya se encuentra registrado`, 
                         msg: 1
                     });
                 }                

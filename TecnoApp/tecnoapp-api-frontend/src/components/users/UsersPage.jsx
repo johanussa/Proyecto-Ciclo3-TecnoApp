@@ -72,7 +72,7 @@ function UsersPage() {
             const res = await axios.delete(`http://localhost:3001/api/usuarios/${ id }`);      
             res.data.msg ? Swal.fire({ icon: 'error', title: 'Oops...', text: res.data.message }) : 
               Swal.fire({ icon: 'success', title: res.data.message, showConfirmButton: false, timer: 3000 });  
-            setRender(render +1);
+            setRender(render +1); setFindOne(false); setFindMany(true);
           }     
     }
     
@@ -125,7 +125,7 @@ function UsersPage() {
                                         setRol( user.Rol ); setEstado( user.Estado ); } } >
                                     <img id="btnEditUser" className="iconsEditUser" src={ IconEdit } alt="Editar" title="Edit"/>                                            
                                 </button>
-                                <button className="btnEditUser" onClick={ deletUser }>
+                                <button className="btnEditUser" onClick={ () => { deletUser(user.Codigo); } }>
                                     <img className="iconsEditUser" src={ IconDelete } alt="Eliminar" title="Delete" />
                                 </button>
                             </td> <br /><br />                                                                                                             
@@ -205,7 +205,7 @@ function UsersPage() {
                 </table> 
                 { findOne == true ? 
                 <div class="d-grid gap-2 col-6 mx-auto">
-                    <button class="btn btn-primary" type="button" onClick={ () => { setFindOne( false ); setFindMany( true ); setRender(render +1); } }>
+                    <button class="btn btn-primary" type="reset" onClick={ () => { setFindOne( false ); setFindMany( true ); setRender(render +1); } }>
                         Listar todos los Usuarios
                     </button> <br />
                 </div> : null }                                 

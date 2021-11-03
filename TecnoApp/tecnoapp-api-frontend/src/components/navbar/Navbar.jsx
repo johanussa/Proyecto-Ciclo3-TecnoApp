@@ -20,9 +20,9 @@ function Navbar() {
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" />
                     <div className="collapse navbar-collapse" id="navbarSupportedContent"> 
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">                        
-                            <li className="nav-item"><Link to='/productos' className="nav-link" href="#">Gestion de Productos</Link></li>
-                            <li className="nav-item"><Link to='/usuarios' className="nav-link" href="#">Gestion de Usuarios</Link></li>
-                            <li className="nav-item"><Link to='/ventas' className="nav-link" href="#">Gestion de Ventas</Link></li>  
+                            <li className="nav-item"><Link to='/productos' className="nav-link" >Gestion de Productos</Link></li>
+                            <li className="nav-item"><Link to='/usuarios' className="nav-link" >Gestion de Usuarios</Link></li>
+                            <li className="nav-item"><Link to='/ventas' className="nav-link" >Gestion de Ventas</Link></li>  
                             <li className="nav-item">
                                 <button type="button" className="btn btn-light rounded-circle btnUser" 
                                     data-bs-toggle="modal" data-bs-target="#exampleModal">

@@ -20,7 +20,7 @@ api.delete('/productos/:id', ProductsCtrl.deleteProducto );
 
 api.get('/usuarios', UsersCtrl.getUsuario);
 api.put('/usuarios', UsersCtrl.updateUsuario );
-api.post('/usuarios', UsersCtrl.registrarUsuario);
+api.post('/usuarios/:email', UsersCtrl.registrarUsuario);
 api.get('/usuarios/:id', UsersCtrl.getOnlyUsuario);
 api.delete('/usuarios/:id', UsersCtrl.deleteUsuario );
 
