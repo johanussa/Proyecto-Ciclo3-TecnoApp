@@ -1,0 +1,43 @@
+.backColorProduct {
+    background-color: rgb(252, 248, 248);
+}
+#iconProduct {
+    width: 60px;
+    float: left;
+    margin: 40px 20px 10px 0px;
+}
+#titleGesProduct {
+    float: left;
+    margin: 45px 20px 10px 0px;
+    text-shadow: 1px 1px 3px rgb(189, 53, 53);    
+}
+.divTitleProduct {
+    margin-top: 90px;    
+}
+#textProduct {
+    color: rgb(189, 4, 4);
+    border-color: rgb(167, 23, 23);
+    background-color: rgb(252, 248, 248);
+    border-bottom: none;
+}
+#navtabs {
+    border-color: rgb(167, 23, 23);
+    margin-left: 55px;
+    margin-right: 55px;
+}
+#divSearchProduct {
+    width: 30%;
+    height: 50px;
+    position: relative;
+    border: 1px solid rgb(167, 23, 23) !important;
+    top: 70px;
+    left: -83px;    
+}
+#titleSearchProduct {
+    margin-top: 5px;
+    margin-left: 15px;
+    text-shadow: 1px 1px 3px rgb(189, 53, 53); 
+}
+#inputColor {
+    border-color: rgb(189, 145, 145);
+}

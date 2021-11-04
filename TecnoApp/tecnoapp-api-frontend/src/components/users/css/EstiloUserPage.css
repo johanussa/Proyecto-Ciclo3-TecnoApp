@@ -1,3 +1,6 @@
+.backColorUser {
+    background-color: rgb(248, 250, 252);
+}
 #iconUser {
     width: 60px;
     float: left;
@@ -14,10 +17,11 @@
 #text {
     color: rgb(1, 69, 105);
     border-color: rgb(1, 54, 97);
+    background-color: rgb(248, 250, 252);
     border-bottom: none;
 }
 .nav-tabs {
-    border-color: rgb(1, 54, 97);
+    border-color: rgb(1, 54, 97);    
     margin-left: 55px;
     margin-right: 55px;
 }

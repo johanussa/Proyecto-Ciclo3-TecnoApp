@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './css/EstiloLgin.css';
 import Logo from './img/TecnoApp.png';
-import LogoGoogle from './img/IconGoogle.png';
 import LogoFace from './img/IconFace.png';
 import logoInsta from './img/IconInsta.png';
+import LogoGoogle from './img/IconGoogle.png';
 import { useAuth0 } from "@auth0/auth0-react";
 
 function LoginPage() {
-
     const { loginWithRedirect } = useAuth0();         
     return (
         <div id="bodyMain">            
@@ -28,8 +27,7 @@ function LoginPage() {
                             onClick={() => loginWithRedirect()}/></a>
                         <a href="#"><img className="iconsSocial len" src={ LogoFace } alt="Facebook"/></a>
                         <a href="#"><img className="iconsSocial" src={ logoInsta } alt="Instagram"/></a>
-                    </div>
-                    
+                    </div>                    
                 </form>
             </div>                     
         </div>

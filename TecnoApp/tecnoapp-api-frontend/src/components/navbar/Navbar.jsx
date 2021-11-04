@@ -40,7 +40,8 @@ function Navbar() {
                                                 <label id="labelEmail" className="labelUserLog">{ user.email }</label>
                                             </div>
                                             <div className="modal-footer">
-                                                <button type="button" className="btn btn-danger btnCloseUser" onClick={() => logout({ returnTo: window.location.origin })}>
+                                                <button type="button" className="btn btn-danger btnCloseUser" 
+                                                    onClick={() => logout({ returnTo: window.location.origin })}>
                                                     Cerrar Sesion
                                                 </button>
                                             </div>
@@ -48,7 +49,9 @@ function Navbar() {
                                     </div>
                                 </div>
                             </li>  
-                            <li><label className="labelUser">{ user.name }</label></li>                                 
+                            <li>
+                                <label className="labelUser">{ user.name }</label>
+                            </li>                                 
                         </ul>                      
                     </div>
                 </div>                                             

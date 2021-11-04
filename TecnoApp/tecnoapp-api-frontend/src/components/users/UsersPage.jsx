@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import IconDelete from './img/iconDelete.png';
 import IconUser from './img/iconUser.png';
 import IconEdit from './img/iconEdit.png';
-import IconDelete from './img/iconDelete.png';
-import Swal from 'sweetalert2';
 import './css/EstiloUserPage.css';
+import Swal from 'sweetalert2';
 import axios from 'axios';
 
 function UsersPage() {
 
     const [render, setRender] = useState(0);
-    const [state, setState] = useState([]);         
-    const [stateOneUser, setStateOneUser] = useState([]);         
+    const [state, setState] = useState([]);                  
     const [Rol, setRol] = useState('');     
     const [Email, setEmail] = useState('');  
     const [Nombre, setNombre] = useState('');  
     const [Estado, setEstado] = useState('');        
     const [Codigo, setCodigo] = useState(0);  
     const [findOne, setFindOne] = useState(false);
-    const [findMany, setFindMany] = useState(true);    
+    const [findMany, setFindMany] = useState(true); 
+    const [stateOneUser, setStateOneUser] = useState([]);     
 
     useEffect(() => {
         axios.get('http://localhost:3001/api/usuarios')
@@ -42,7 +42,6 @@ function UsersPage() {
              }            
         });     
     }
-
     const updateUser = async () => {
         const updateUser = { Codigo, Rol, Estado };
         const res = await axios.put('http://localhost:3001/api/usuarios', updateUser);
@@ -52,7 +51,6 @@ function UsersPage() {
         setRender(render +1);
         if(findOne) { showOnlyUser(); }
     }
-
     const deletUser = async (id) => {        
         Swal.fire({
             title: 'Estas Seguro?',
@@ -64,9 +62,7 @@ function UsersPage() {
             cancelButtonText: 'NO, Cancelar!',
             confirmButtonText: 'SI, Eliminarlo!'
           }).then((result) => {
-            if (result.isConfirmed) {
-              confirmado();        
-            }
+            if (result.isConfirmed) { confirmado(); }
           }); 
           const confirmado = async () => {
             const res = await axios.delete(`http://localhost:3001/api/usuarios/${ id }`);      
@@ -77,7 +73,7 @@ function UsersPage() {
     }
     
     return (
-        <div>
+        <div className="backColorUser">
             <div className="container">
                 <img id="iconUser" src={ IconUser } alt="User" />
                 <h1 id="titleGesUser">Gestion de Usuarios</h1> <br />
@@ -125,7 +121,7 @@ function UsersPage() {
                                         setRol( user.Rol ); setEstado( user.Estado ); } } >
                                     <img id="btnEditUser" className="iconsEditUser" src={ IconEdit } alt="Editar" title="Edit"/>                                            
                                 </button>
-                                <button className="btnEditUser" onClick={ () => { deletUser(user.Codigo); } }>
+                                <button className="btnEditUser" onClick={ () => { deletUser( user.Codigo ); } }>
                                     <img className="iconsEditUser" src={ IconDelete } alt="Eliminar" title="Delete" />
                                 </button>
                             </td> <br /><br />                                                                                                             
@@ -145,7 +141,7 @@ function UsersPage() {
                                         setEmail( users.Email ); setRol( users.Rol ); setEstado( users.Estado ); } }>                                        
                                     <img id="btnEditUser" className="iconsEditUser" src={ IconEdit } alt="Editar" title="Edit"/>                                            
                                 </button>
-                                <button className="btnEditUser" onClick={ () => { deletUser(users.Codigo); } }>
+                                <button className="btnEditUser" onClick={ () => { deletUser( users.Codigo ); } }>
                                     <img className="iconsEditUser" src={ IconDelete } alt="Eliminar" title="Delete" />
                                 </button>
                             </td>
@@ -163,8 +159,7 @@ function UsersPage() {
                                             <div className="col-md-5">
                                                 <label htmlFor="inputCodigo" className="form-control-sm">Codigo</label>
                                                 <input type="number" className="form-control form-control-sm" id="inputCodigo" 
-                                                    disabled value={ Codigo }></input>
-                                                
+                                                    disabled value={ Codigo }></input>                                                
                                             </div>
                                             <div className="col-md-7">
                                                 <label htmlFor="inputPass" className="form-control-sm">Nombre</label>
@@ -196,7 +191,8 @@ function UsersPage() {
                                     </div>
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" onClick={ updateUser }>Actualizar</button>
+                                        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" 
+                                            onClick={ updateUser }>Actualizar</button>
                                     </div>
                                 </div>
                             </div>
@@ -205,7 +201,8 @@ function UsersPage() {
                 </table> 
                 { findOne == true ? 
                 <div class="d-grid gap-2 col-6 mx-auto">
-                    <button class="btn btn-primary" type="reset" onClick={ () => { setFindOne( false ); setFindMany( true ); setRender(render +1); } }>
+                    <button class="btn btn-primary" type="reset" onClick={ () => { setFindOne( false ); setFindMany( true ); 
+                            setRender( render +1 ); } }>
                         Listar todos los Usuarios
                     </button> <br />
                 </div> : null }                                 
