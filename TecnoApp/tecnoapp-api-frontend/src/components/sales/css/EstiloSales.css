@@ -41,3 +41,25 @@
 #inputColorSale {
     border-color: rgb(169, 212, 175);
 }
+.iconEditSale {
+    width: 20px;
+    margin-left: 15px;
+}
+.btnEditSale {
+    border: none;
+    background: none;    
+    margin: 0;
+    padding: 0;
+}
+.setDivSales {
+    max-width: 100%;
+    margin: 25px auto;
+    text-align: right;
+    margin-bottom: 20;
+}
+.setBtnSales {
+    width: 50%;
+}
+#div2Sale {
+    text-align: left;
+}

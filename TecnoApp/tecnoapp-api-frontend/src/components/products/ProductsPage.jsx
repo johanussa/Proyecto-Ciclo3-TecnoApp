@@ -143,12 +143,11 @@ function ProductsPage() {
                         </select>
                     </div>
                     <div className="setDivProducts col-md-6 mt-5">
-                        <button class="btn btn-danger setBtnProducts" type="reset">Limpiar Campos</button>                        
+                        <button className="btn btn-danger setBtnProducts" type="reset">Limpiar Campos</button>                        
                     </div>   
                     <div id="div2Product" className="setDivProducts col-md-6 mt-5">
-                        <button class="btn btn-secondary setBtnProducts" type="button" onClick={ addProduct }>Registrar Producto</button>                         
-                    </div>   
-                                 
+                        <button className="btn btn-secondary setBtnProducts" type="button" onClick={ addProduct }>Registrar Producto</button>                         
+                    </div>                                    
                 </form>
                 <div className="container border">
                     <div className="m-3 mt-0">
@@ -255,8 +254,8 @@ function ProductsPage() {
                             </tbody>
                         </table>
                         { findOne == true ? 
-                            <div class="d-grid gap-2 col-6 mx-auto mt-5">
-                                <button class="btn btn-danger" type="reset" onClick={ () => { setFindOne( false ); setFindMany( true ); 
+                            <div className="d-grid gap-2 col-6 mx-auto mt-5">
+                                <button className="btn btn-danger" type="reset" onClick={ () => { setFindOne( false ); setFindMany( true ); 
                                         setRender( render +1 ); } }>
                                     Listar todos los Productos
                                 </button> <br />
