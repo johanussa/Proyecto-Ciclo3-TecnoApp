@@ -95,6 +95,7 @@ function UsersPage() {
                 </ul>
             </div> <br /><br />
             <div className="container border"> <br />
+                <legend>Listado de Usuarios</legend>
                 <table className="table table-striped">
                     <thead>
                         <tr className="table-primary">
@@ -127,7 +128,7 @@ function UsersPage() {
                             </td> <br /><br />                                                                                                             
                         </tr>
                         )  :  null }     
-                    {   findMany == true ?
+                    { findMany == true ?
                         state.map( users =>
                         <tr>
                             <th scope="row">{ users.Codigo }</th>

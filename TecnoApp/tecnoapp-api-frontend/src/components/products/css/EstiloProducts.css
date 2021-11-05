@@ -41,3 +41,29 @@
 #inputColor {
     border-color: rgb(189, 145, 145);
 }
+.iconsEditProducts {
+    width: 20px;
+}
+#btnEditProduct {
+    margin-right: 10px;
+}
+.btnEditProduct {
+    border: none;
+    background: none;
+}
+#modalProductColor {
+    background-color: rgb(2, 129, 240);
+    color: aliceblue;
+}
+.setDivProducts {
+    max-width: 100%;
+    margin: 25px auto;
+    text-align: right;
+    margin-bottom: 20;
+}
+.setBtnProducts {
+    width: 50%;
+}
+#div2Product {
+    text-align: left;
+}
