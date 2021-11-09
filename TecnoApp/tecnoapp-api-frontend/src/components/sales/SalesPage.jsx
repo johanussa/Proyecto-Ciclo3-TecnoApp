@@ -11,13 +11,11 @@ function SalesPage() {
     const [dataProducts, setDataProducts] = useState([]);  
     const [dataOneProduct, setDataOneProduct] = useState([]);  
     const [falgID, setFlagID] = useState(0);
-    const [cant, setCant] = useState(0);
-    const data = [];
 
     useEffect(() => { 
         axios.get('http://localhost:3001/api/productos')
         .then(res => {
-            const products = res.data.productos;
+            const products = res.data.productos;                      
             setDataProducts( products );          
             console.log(res.data.message);
         }); 
@@ -33,6 +31,41 @@ function SalesPage() {
     const addSale = async => {
 
     }
+    function dataAdd(id) {
+        dataProducts.map( product => {
+            if(product.Id_Producto == id) {
+                dataOneProduct.push({
+                    Id_Producto : product.Id_Producto,
+                    Nombre : product.Nombre,
+                    Descripcion : product.Descripcion,
+                    Cantidad : 1,
+                    Precio : product.Precio,
+                    Total : product.Precio
+                });
+                setDataOneProduct(dataOneProduct);
+                setRender(render +1);
+            }            
+        });          
+    } 
+    function updateData(cant, precio, id) {        
+        dataOneProduct.map( product => {
+            if(product.Id_Producto == id) {
+                product.Cantidad = cant;
+                product.Total = precio * cant;
+                setRender(render +1);
+            } 
+        });
+    }
+    function deleteDataArray(id) {
+        let indice;
+        for (let i = 0; i < dataOneProduct.length; i++) {
+            if(dataOneProduct[i].Id_Producto == id) {
+                indice = i; break;
+            }            
+        }
+        dataOneProduct.splice(indice, 1);
+        setRender(render +1);
+    }
     return (
         <div className="backColorSales">
             <div className="container">
@@ -42,7 +75,8 @@ function SalesPage() {
             <div id="divSearchSale" className="container border input-group">
                 <h5 id="titleSearchSale">Buscar Venta</h5>  
                 <div className="input-group">                    
-                    <input id="inputColorSale" type="text" className="form-control" placeholder="Codigo de Venta" aria-describedby="basic-addon1" />
+                    <input id="inputColorSale" type="text" className="form-control" 
+                        placeholder="Codigo de Venta" aria-describedby="basic-addon1" />
                     <button type="button" className="input-group-text btn btn-success" >Buscar</button>
                 </div>             
             </div>
@@ -63,12 +97,11 @@ function SalesPage() {
                     </div>
                     <div className="col-md-6">
                         <label for="inputState" className="form-label">Agregar Productos</label>
-                        <select id="inputState" className="form-select" onChange={ e => console.log(e.target.value) } >
+                        <select id="inputState" className="form-select" onChange={ e => dataAdd(e.target.value) } >
                             <option defaultValue>Elige los Productos de la lista...</option>
                             { dataProducts.map( product => 
                                 <option value={ product.Id_Producto }>{ product.Nombre }</option>
                             )}
-                            <option>...</option>
                         </select>
                     </div>
                     <div className="col-md-12">
@@ -87,22 +120,22 @@ function SalesPage() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {/* { dataOneProduct.length > 0 ? 
-                                    dataOneProduct.map( product => 
-                                    <tr>
-                                        <th>{  }</th>                                    
-                                        <td>{ product[1] }</td>
-                                        <td>{ product[2] }</td>
-                                        <td><input type="Number" onChange={ (e => setCant(e.target.value)) } /></td>
-                                        <td>{ product[3] }</td>
-                                        <td>{ cant * product[3] }</td>
+                                { dataOneProduct.map( product => 
+                                    <tr> 
+                                        <th>{ product.Id_Producto }</th>                                    
+                                        <td>{ product.Nombre }</td>
+                                        <td>{ product.Descripcion }</td>
+                                        <td><input id="input" className="form-control form-control-sm" type="Number" placeholder={ product.Cantidad } 
+                                                onChange={ e => updateData(e.target.value, product.Precio, product.Id_Producto) } /></td>
+                                        <td>{ product.Precio }</td>
+                                        <td>{ product.Total }</td>
                                         <td>
-                                            <button className="btnEditSale">
-                                                <img className="iconEditSale" src={ IconCancel } alt="Cancel" />
+                                            <button className="btnEditSale" type="button" onClick={ () => { deleteDataArray( product.Id_Producto); } }>
+                                                <img className="iconEditSale" src={ IconCancel } alt="Cancel" title="Eliminar" />
                                             </button>
                                         </td>
                                     </tr>
-                                ) : null }                                     */}
+                                ) }                                    
                                 </tbody>
                             </table>    
                         </div>                                                    
