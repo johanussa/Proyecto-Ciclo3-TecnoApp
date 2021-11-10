@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import LogoSales from './img/IconSales.png';
 import IconCancel from './img/IconCancel.png';
+import Swal from 'sweetalert2';
 import './css/EstiloSales.css';
 import axios from 'axios';
 
 function SalesPage() {
 
     const [Id_Venta, setId_Venta] = useState(0);   
+    const [Valor_Total, setValor_Total] = useState(0);   
     const [render, setRender] = useState(0); 
     const [dataProducts, setDataProducts] = useState([]);  
-    const [dataOneProduct, setDataOneProduct] = useState([]);  
+    const [Productos, setProductos] = useState([]);  
+    const [Id_Cliente, setId_Cliente] = useState(0);  
+    const [Nom_Cliente, setNom_Cliente] = useState('');  
+    const [Id_Vendedor, setId_Vendedor] = useState(0);  
+    const [Nom_Vendedor, setNom_Vendedor] = useState('');  
+    const [Fecha_Venta, setFecha_Venta] = useState('');  
+    const [Estado_Venta, setEstado_Venta] = useState('');  
     const [falgID, setFlagID] = useState(0);
 
     useEffect(() => { 
@@ -28,13 +36,20 @@ function SalesPage() {
         setId_Venta( idGener );
         setFlagID(true);
     } 
-    const addSale = async => {
-
+    const addSale = async() => {
+        const newSale = { Id_Venta, Productos, Valor_Total, Fecha_Venta, Id_Cliente,
+            Nom_Cliente, Id_Vendedor, Nom_Vendedor, Estado_Venta };
+        await axios.post('http://localhost:3001/api/gestionventas', newSale)
+        .then(res => {
+            if(res.data.msg) { Swal.fire({ icon: 'error', title: 'Oops...', text: res.data.message }); }
+            else { Swal.fire({ icon: 'success', title: res.data.message, showConfirmButton: false, timer: 3000 }); 
+                setValor_Total(0); setProductos([]); }            
+        });
     }
     function dataAdd(id) {
         dataProducts.map( product => {
             if(product.Id_Producto == id) {
-                dataOneProduct.push({
+                Productos.push({
                     Id_Producto : product.Id_Producto,
                     Nombre : product.Nombre,
                     Descripcion : product.Descripcion,
@@ -42,28 +57,31 @@ function SalesPage() {
                     Precio : product.Precio,
                     Total : product.Precio
                 });
-                setDataOneProduct(dataOneProduct);
+                setProductos(Productos);               
                 setRender(render +1);
+                setValor_Total(Valor_Total + product.Precio); 
             }            
         });          
     } 
-    function updateData(cant, precio, id) {        
-        dataOneProduct.map( product => {
+    function updateData(cant, precio, id) {  
+        setValor_Total(0);
+        Productos.map( product => {
             if(product.Id_Producto == id) {
                 product.Cantidad = cant;
                 product.Total = precio * cant;
+                setValor_Total(Valor_Total + (precio * cant));
                 setRender(render +1);
             } 
         });
     }
     function deleteDataArray(id) {
         let indice;
-        for (let i = 0; i < dataOneProduct.length; i++) {
-            if(dataOneProduct[i].Id_Producto == id) {
+        for (let i = 0; i < Productos.length; i++) {
+            if(Productos[i].Id_Producto == id) {
                 indice = i; break;
             }            
         }
-        dataOneProduct.splice(indice, 1);
+        Productos.splice(indice, 1);
         setRender(render +1);
     }
     return (
@@ -91,12 +109,12 @@ function SalesPage() {
                 <form className="row g-3 m-4 mt-2">
                     <legend>Registro de Ventas</legend>
                     <div className="col-md-6">
-                        <label for="inputID" className="form-label">Identificador Venta</label>
+                        <label htmlFor="inputID" className="form-label">Identificador Venta</label>
                         <input readOnly type="text" className="form-control" id="inputID" onClick={ generatorID }
                             placeholder={ falgID ? Id_Venta : "Da click aqui para generar el ID de Venta" } />
                     </div>
                     <div className="col-md-6">
-                        <label for="inputState" className="form-label">Agregar Productos</label>
+                        <label htmlFor="inputState" className="form-label">Agregar Productos</label>
                         <select id="inputState" className="form-select" onChange={ e => dataAdd(e.target.value) } >
                             <option defaultValue>Elige los Productos de la lista...</option>
                             { dataProducts.map( product => 
@@ -120,7 +138,7 @@ function SalesPage() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                { dataOneProduct.map( product => 
+                                { Productos.map( product => 
                                     <tr> 
                                         <th>{ product.Id_Producto }</th>                                    
                                         <td>{ product.Nombre }</td>
@@ -130,7 +148,8 @@ function SalesPage() {
                                         <td>{ product.Precio }</td>
                                         <td>{ product.Total }</td>
                                         <td>
-                                            <button className="btnEditSale" type="button" onClick={ () => { deleteDataArray( product.Id_Producto); } }>
+                                            <button className="btnEditSale" type="button" 
+                                                onClick={ () => { deleteDataArray( product.Id_Producto ); } }>
                                                 <img className="iconEditSale" src={ IconCancel } alt="Cancel" title="Eliminar" />
                                             </button>
                                         </td>
@@ -141,28 +160,33 @@ function SalesPage() {
                         </div>                                                    
                     </div>
                     <div className="col-md-6">
-                        <label for="inputIdClient" className="form-label">Identificacion de Cliente</label>
-                        <input type="number" className="form-control" id="inputIdClient" />
+                        <label htmlFor="inputIdClient" className="form-label">Identificacion de Cliente</label>
+                        <input type="number" className="form-control" id="inputIdClient" 
+                            onChange={ e => setId_Cliente(e.target.value) } />
                     </div>
                     <div className="col-md-6">
-                        <label for="inputNomClient" className="form-label">Nombre de Cliente</label>
-                        <input type="text" className="form-control" id="inputNomClient" />
+                        <label htmlFor="inputNomClient" className="form-label">Nombre de Cliente</label>
+                        <input type="text" className="form-control" id="inputNomClient" 
+                            onChange={ e => setNom_Cliente(e.target.value) } />
                     </div> 
                     <div className="col-md-6">
-                        <label for="inputIdVend" className="form-label">Identificacion de Vendedor</label>
-                        <input type="number" className="form-control" id="inputIdVend" />
+                        <label htmlFor="inputIdVend" className="form-label">Identificacion de Vendedor</label>
+                        <input type="number" className="form-control" id="inputIdVend" 
+                            onChange={ e => setId_Vendedor(e.target.value) } />
                     </div>
                     <div className="col-md-6">
-                        <label for="inputNomVend" className="form-label">Nombre de Vendedor</label>
-                        <input type="text" className="form-control" id="inputNomVend" />
+                        <label htmlFor="inputNomVend" className="form-label">Nombre de Vendedor</label>
+                        <input type="text" className="form-control" id="inputNomVend" 
+                            onChange={ e => setNom_Vendedor(e.target.value) } />
                     </div> 
                     <div className="col-md-6">
-                        <label for="inputFecha" className="form-label">Fecha de Venta</label>
-                        <input type="date" className="form-control" id="inputFecha" />
+                        <label htmlFor="inputFecha" className="form-label">Fecha de Venta</label>
+                        <input type="date" className="form-control" id="inputFecha" 
+                            onChange={ e => setFecha_Venta(e.target.value) } />
                     </div> 
                     <div className="col-md-6">
-                        <label for="inputEstado" className="form-label">Estado de la venta</label>
-                        <select id="inputEstado" className="form-select">
+                        <label htmlFor="inputEstado" className="form-label">Estado de la venta</label>
+                        <select id="inputEstado" className="form-select" onChange={ e => setEstado_Venta(e.target.value) }>
                             <option defaultValue>Elige el estado actual de la venta...</option>
                             <option value="En Proceso">En Proceso</option>
                             <option value="Cancelada">Cancelada</option>
@@ -170,7 +194,7 @@ function SalesPage() {
                         </select>
                     </div>
                     <div className="setDivSales col-md-6 mt-5">
-                        <button className="btn btn-success setBtnSales" type="reset">Limpiar Campos</button>                        
+                        <button className="btn btn-success setBtnSales" type="reset" >Limpiar Campos</button>                        
                     </div>   
                     <div id="div2Sale" className="setDivSales col-md-6 mt-5">
                         <button className="btn btn-secondary setBtnSales" type="button" onClick={ addSale }>Registrar Venta</button>                         
@@ -182,10 +206,8 @@ function SalesPage() {
                         <table className="table table-striped"> 
                             <thead>
                                 <tr id="init" className="table-success">
-                                    <th>ID Producto</th>                                    
-                                    <th>Descripcion Producto</th>     
-                                    <th>Cantidad</th>                       
-                                    <th>Vlr. Unit.</th>
+                                    <th>ID Venta</th>                                    
+                                    <th>Descripcion Productos Venta</th>  
                                     <th>Vlr. Total</th>
                                     <th>Accion</th>
                                 </tr>

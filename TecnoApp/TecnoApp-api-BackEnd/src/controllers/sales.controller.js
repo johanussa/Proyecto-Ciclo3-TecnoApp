@@ -91,7 +91,8 @@ VentaCtrl.getManySales = async (req, res) => {
 }
 VentaCtrl.registrarVenta = async (req, res) => {    
     try {
-        const query = { "Id_Venta" : req.body.Id_Venta }
+        const query = { "Id_Venta" : req.body.Id_Venta };
+        console.log(req.body);
         Ventas.findOne(query, (err, salesBD) => {
             if(!salesBD){  
                 const ventasTemp = req.body;                

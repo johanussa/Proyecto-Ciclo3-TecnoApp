@@ -70,8 +70,7 @@ function UsersPage() {
               Swal.fire({ icon: 'success', title: res.data.message, showConfirmButton: false, timer: 3000 });  
             setRender(render +1); setFindOne(false); setFindMany(true);
           }     
-    }
-    
+    }    
     return (
         <div className="backColorUser">
             <div className="container">
@@ -94,119 +93,121 @@ function UsersPage() {
                     </li>
                 </ul>
             </div> <br /><br />
-            <div className="container border"> <br />
-                <legend>Listado de Usuarios</legend>
-                <table className="table table-striped">
-                    <thead>
-                        <tr className="table-primary">
-                            <th>Codigo</th>
-                            <th>Nombre</th>
-                            <th>E-mail</th>                            
-                            <th>Rol</th>
-                            <th>Estado</th>
-                            <th>Accion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    { findOne == true && stateOneUser.length > 0 ? 
-                        stateOneUser.map( user =>                                             
-                        <tr>                        
-                            <th scope="row">{ user.Codigo }</th>
-                            <td>{ user.Nombre }</td>
-                            <td>{ user.Email }</td>
-                            <td>{ user.Rol }</td>
-                            <td>{ user.Estado }</td>
-                            <td>
-                                <button className="btnEditUser" data-bs-toggle="modal" data-bs-target="#modalEdit"  onClick={ () => { 
-                                        setCodigo( user.Codigo ); setNombre( user.Nombre ); setEmail( user.Email ); 
-                                        setRol( user.Rol ); setEstado( user.Estado ); } } >
-                                    <img id="btnEditUser" className="iconsEditUser" src={ IconEdit } alt="Editar" title="Edit"/>                                            
-                                </button>
-                                <button className="btnEditUser" onClick={ () => { deletUser( user.Codigo ); } }>
-                                    <img className="iconsEditUser" src={ IconDelete } alt="Eliminar" title="Delete" />
-                                </button>
-                            </td> <br /><br />                                                                                                             
-                        </tr>
-                        )  :  null }     
-                    { findMany == true ?
-                        state.map( users =>
-                        <tr>
-                            <th scope="row">{ users.Codigo }</th>
-                            <td>{ users.Nombre }</td>
-                            <td>{ users.Email }</td>
-                            <td>{ users.Rol }</td>
-                            <td>{ users.Estado }</td>
-                            <td>
-                                <button className="btnEditUser" data-bs-toggle="modal" data-bs-target="#modalEdit" 
-                                    onClick={ () => { setCodigo( users.Codigo ); setNombre( users.Nombre ); 
-                                        setEmail( users.Email ); setRol( users.Rol ); setEstado( users.Estado ); } }>                                        
-                                    <img id="btnEditUser" className="iconsEditUser" src={ IconEdit } alt="Editar" title="Edit"/>                                            
-                                </button>
-                                <button className="btnEditUser" onClick={ () => { deletUser( users.Codigo ); } }>
-                                    <img className="iconsEditUser" src={ IconDelete } alt="Eliminar" title="Delete" />
-                                </button>
-                            </td>
-                        </tr>
-                        ) : null }              
-                        <div className="modal fade" id="modalEdit" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div className="modal-dialog">
-                                <div className="modal-content">
-                                    <div id="modalUserolor" className="modal-header">
-                                        <h5 className="modal-title" id="exampleModalLabel">Editar Usuario</h5>
-                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div className="modal-body">
-                                        <form className="row g-3">
-                                            <div className="col-md-5">
-                                                <label htmlFor="inputCodigo" className="form-control-sm">Codigo</label>
-                                                <input type="number" className="form-control form-control-sm" id="inputCodigo" 
-                                                    disabled value={ Codigo }></input>                                                
-                                            </div>
-                                            <div className="col-md-7">
-                                                <label htmlFor="inputPass" className="form-control-sm">Nombre</label>
-                                                <input type="text" className="form-control form-control-sm" id="inputPass" 
-                                                    disabled value={ Nombre }></input>
-                                            </div>
-                                            <div className="col-md-7">
-                                                <label htmlFor="inputEmail" className="form-control-sm">Email</label>
-                                                <input type="email" className="form-control form-control-sm" id="inputEmail" 
-                                                    disabled value={ Email }></input>
-                                            </div>
-                                            <div className="col-md-5">
-                                                <label className="form-control-sm">Rol</label>
-                                                <select className="form-select form-select-sm" onChange={ e => setRol( e.target.value) } >              
-                                                    <option defaultValue>{ Rol }</option>
-                                                    <option value="Administrador">Administrador</option>
-                                                    <option value="Vendedor">Vendedor</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label className="form-control-sm">Estado</label>
-                                                <select className="form-select form-select-sm" onChange={ e => setEstado( e.target.value ) } >              
-                                                    <option defaultValue>{ Estado }</option>
-                                                    <option value="Autorizado">Autorizado</option>
-                                                    <option value="No Autorizado">No Autorizado</option>
-                                                </select>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div className="modal-footer">
-                                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" 
-                                            onClick={ updateUser }>Actualizar</button>
+            <div className="container border"> 
+                <div className="m-3 mt-0">
+                    <legend className="m-4">Listado de Usuarios</legend>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr className="table-primary">
+                                <th>Codigo</th>
+                                <th>Nombre Usuario</th>
+                                <th>E-mail Usuario</th>                            
+                                <th>Rol Usuario</th>
+                                <th>Estado</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        { findOne == true && stateOneUser.length > 0 ? 
+                            stateOneUser.map( user =>                                             
+                            <tr>                        
+                                <th scope="row">{ user.Codigo }</th>
+                                <td>{ user.Nombre }</td>
+                                <td>{ user.Email }</td>
+                                <td>{ user.Rol }</td>
+                                <td>{ user.Estado }</td>
+                                <td>
+                                    <button className="btnEditUser" data-bs-toggle="modal" data-bs-target="#modalEdit"  onClick={ () => { 
+                                            setCodigo( user.Codigo ); setNombre( user.Nombre ); setEmail( user.Email ); 
+                                            setRol( user.Rol ); setEstado( user.Estado ); } } >
+                                        <img id="btnEditUser" className="iconsEditUser" src={ IconEdit } alt="Editar" title="Edit"/>                                            
+                                    </button>
+                                    <button className="btnEditUser" onClick={ () => { deletUser( user.Codigo ); } }>
+                                        <img className="iconsEditUser" src={ IconDelete } alt="Eliminar" title="Delete" />
+                                    </button>
+                                </td> <br /><br />                                                                                                             
+                            </tr>
+                            )  :  null }     
+                        { findMany == true ?
+                            state.map( users =>
+                            <tr>
+                                <th scope="row">{ users.Codigo }</th>
+                                <td>{ users.Nombre }</td>
+                                <td>{ users.Email }</td>
+                                <td>{ users.Rol }</td>
+                                <td>{ users.Estado }</td>
+                                <td>
+                                    <button className="btnEditUser" data-bs-toggle="modal" data-bs-target="#modalEdit" 
+                                        onClick={ () => { setCodigo( users.Codigo ); setNombre( users.Nombre ); 
+                                            setEmail( users.Email ); setRol( users.Rol ); setEstado( users.Estado ); } }>                                        
+                                        <img id="btnEditUser" className="iconsEditUser" src={ IconEdit } alt="Editar" title="Edit"/>                                            
+                                    </button>
+                                    <button className="btnEditUser" onClick={ () => { deletUser( users.Codigo ); } }>
+                                        <img className="iconsEditUser" src={ IconDelete } alt="Eliminar" title="Delete" />
+                                    </button>
+                                </td>
+                            </tr>
+                            ) : null }              
+                            <div className="modal fade" id="modalEdit" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div id="modalUserolor" className="modal-header">
+                                            <h5 className="modal-title" id="exampleModalLabel">Editar Usuario</h5>
+                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div className="modal-body">
+                                            <form className="row g-3">
+                                                <div className="col-md-5">
+                                                    <label htmlFor="inputCodigo" className="form-control-sm">Codigo</label>
+                                                    <input type="number" className="form-control form-control-sm" id="inputCodigo" 
+                                                        disabled value={ Codigo }></input>                                                
+                                                </div>
+                                                <div className="col-md-7">
+                                                    <label htmlFor="inputPass" className="form-control-sm">Nombre</label>
+                                                    <input type="text" className="form-control form-control-sm" id="inputPass" 
+                                                        disabled value={ Nombre }></input>
+                                                </div>
+                                                <div className="col-md-7">
+                                                    <label htmlFor="inputEmail" className="form-control-sm">Email</label>
+                                                    <input type="email" className="form-control form-control-sm" id="inputEmail" 
+                                                        disabled value={ Email }></input>
+                                                </div>
+                                                <div className="col-md-5">
+                                                    <label className="form-control-sm">Rol</label>
+                                                    <select className="form-select form-select-sm" onChange={ e => setRol( e.target.value) } >              
+                                                        <option defaultValue>{ Rol }</option>
+                                                        <option value="Administrador">Administrador</option>
+                                                        <option value="Vendedor">Vendedor</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label className="form-control-sm">Estado</label>
+                                                    <select className="form-select form-select-sm" onChange={ e => setEstado( e.target.value ) } >              
+                                                        <option defaultValue>{ Estado }</option>
+                                                        <option value="Autorizado">Autorizado</option>
+                                                        <option value="No Autorizado">No Autorizado</option>
+                                                    </select>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" 
+                                                onClick={ updateUser }>Actualizar</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>                                                                                        
-                    </tbody>
-                </table> 
-                { findOne == true ? 
-                <div class="d-grid gap-2 col-6 mx-auto">
-                    <button class="btn btn-primary" type="reset" onClick={ () => { setFindOne( false ); setFindMany( true ); 
-                            setRender( render +1 ); } }>
-                        Listar todos los Usuarios
-                    </button> <br />
-                </div> : null }                                 
+                            </div>                                                                                        
+                        </tbody>
+                    </table> 
+                    { findOne == true ? 
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-primary" type="reset" onClick={ () => { setFindOne( false ); setFindMany( true ); 
+                                setRender( render +1 ); } }>
+                            Listar todos los Usuarios
+                        </button> <br />
+                    </div> : null }   
+                </div>                                              
             </div> <br /><br />              
         </div>
     )
