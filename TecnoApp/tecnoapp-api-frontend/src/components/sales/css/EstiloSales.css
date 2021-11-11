@@ -66,3 +66,20 @@
 #input {
     width: 70px;
 }
+.iconsEditSales {
+    width: 20px;
+}
+#btnEditSales {
+    margin-right: 10px;
+}
+.btnEditSales {
+    border: none;
+    background: none;
+}
+#headColor {
+    background-color: #117845;
+    color: #fff;
+}
+#tamModal {
+    max-width: 76%;
+}

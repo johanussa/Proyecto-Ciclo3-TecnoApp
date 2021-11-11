@@ -8,7 +8,8 @@ const VentasSchema = new Schema( {
         Nombre: { type: String, required: true },
         Descripcion: { type: String, required: true },
         Cantidad: { type: Number, required: true },
-        Precio: { type: Number, required: true }        
+        Precio: { type: Number, required: true },        
+        Total: { type: Number, required: true }        
     }],    
     Valor_Total: { type: Number, required: true },
     Fecha_Venta: { type: String, required: true },

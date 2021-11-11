@@ -164,7 +164,7 @@ function ProductsPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                            { findMany == true ?
+                            { findMany ?
                                 state.map( product =>
                                 <tr>
                                     <th scope="row">{ product.Id_Producto }</th>
@@ -184,7 +184,7 @@ function ProductsPage() {
                                     </td>
                                 </tr>
                             ) : null } 
-                            { findOne == true && OneProduct.length > 0 ? 
+                            { findOne && OneProduct.length > 0 ? 
                                 OneProduct.map( product =>                                             
                                 <tr>                        
                                     <th scope="row">{ product.Id_Producto }</th>
@@ -253,7 +253,7 @@ function ProductsPage() {
                                 </div>  
                             </tbody>
                         </table>
-                        { findOne == true ? 
+                        { findOne ? 
                             <div className="d-grid gap-2 col-6 mx-auto mt-5">
                                 <button className="btn btn-danger" type="reset" onClick={ () => { setFindOne( false ); setFindMany( true ); 
                                         setRender( render +1 ); } }>
