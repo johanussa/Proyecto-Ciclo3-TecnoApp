@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 import './css/EstiloWelcome.css';
 import axios from 'axios';
@@ -11,8 +11,8 @@ function WelcomePage() {
         if(isAuthenticated) { 
             let arrayCodigo = new Uint16Array(1);
             window.crypto.getRandomValues(arrayCodigo);              
-            let Codigo = arrayCodigo[0]; let Nombre = user.name; let Email = user.email;
-            let Rol = 'Indefinido'; let Estado = 'Indefinido';
+            let Codigo = ('UR' + arrayCodigo[0]); let Nombre = user.name; let Email = user.email;
+            let Rol = 'Pendiente'; let Estado = 'Pendiente';
             const newuser = { Codigo, Nombre, Email, Rol, Estado };
             console.log(newuser);
             axios.post('http://localhost:3001/api/usuarios/' + Email, newuser)

@@ -108,7 +108,7 @@ function UsersPage() {
                             </tr>
                         </thead>
                         <tbody>
-                        { findOne == true && stateOneUser.length > 0 ? 
+                        { findOne && stateOneUser.length > 0 ? 
                             stateOneUser.map( user =>                                             
                             <tr>                        
                                 <th scope="row">{ user.Codigo }</th>
@@ -128,7 +128,7 @@ function UsersPage() {
                                 </td> <br /><br />                                                                                                             
                             </tr>
                             )  :  null }     
-                        { findMany == true ?
+                        { findMany ?
                             state.map( users =>
                             <tr>
                                 <th scope="row">{ users.Codigo }</th>
@@ -200,7 +200,7 @@ function UsersPage() {
                             </div>                                                                                        
                         </tbody>
                     </table> 
-                    { findOne == true ? 
+                    { findOne ? 
                     <div class="d-grid gap-2 col-6 mx-auto">
                         <button class="btn btn-primary" type="reset" onClick={ () => { setFindOne( false ); setFindMany( true ); 
                                 setRender( render +1 ); } }>

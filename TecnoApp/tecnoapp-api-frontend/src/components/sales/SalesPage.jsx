@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import './css/EstiloSales.css';
+import Swal from 'sweetalert2';
+import axios from 'axios';
 import LogoSales from './img/IconSales.png';
 import IconCancel from './img/IconCancel.png';
 import IconEdit from '../users/img/iconEdit.png';
 import IconDelete from '../users/img/iconDelete.png';
-import Swal from 'sweetalert2';
-import './css/EstiloSales.css';
-import axios from 'axios';
 
 function SalesPage() {
 
@@ -15,10 +15,11 @@ function SalesPage() {
     const [Valor_Total, setValor_Total] = useState(0);   
     const [renderSale, setRenderSale] = useState(0);    // Evita Loop      
     const [dataSales, setDataSales] = useState([]);     // Trae registros de DB  
-    const [Productos, setProductos] = useState([]);     // Guarda ventas agregadas
+    const [Productos, setProductos] = useState([]);     // Guarda productos agregados a la venta
     const [oneSale, setOneSale] = useState([]);         // Guarda una venta que trae de la DB
-    const [showAll, setShowAll] = useState(true); 
+    const [showAll, setShowAll] = useState(true);     // Muestra la tabla segun requerimiento
     const [findOne, setFindOne] = useState(false);          
+    const [tableMain, setTableMain] = useState(true);     // Evita conflictos con la actualizacion de los datos       
     const [Id_Cliente, setId_Cliente] = useState(0);     // Estados para mostrar y enviar
     const [Nom_Cliente, setNom_Cliente] = useState('');  
     const [Id_Vendedor, setId_Vendedor] = useState(0);  
@@ -53,7 +54,7 @@ function SalesPage() {
             venta.push(res.data.venta);                      
             if (venta[0] == undefined) {
                 Swal.fire({ icon: 'error', title: 'Oops...', text: 'No hay Registros en la Base de Datos Disponibles' });
-                setOneSale([]);
+                setOneSale([]); setFindOne(false); setShowAll(true);
             } else {                
                 setOneSale( venta );
                 console.log(res.data.message);
@@ -94,7 +95,7 @@ function SalesPage() {
     }
     const updateSale = async() => {
         const updateProduct = { Id_Venta, Productos, Valor_Total, Id_Vendedor, Nom_Vendedor, Estado_Venta };
-        const res = await axios.put('http://localhost:3001/api/productos', updateProduct);
+        const res = await axios.put('http://localhost:3001/api/gestionventas', updateProduct);
         res.data.msg ? Swal.fire({ icon: 'error', title: 'Oops...', text: res.data.message }) : 
             Swal.fire({ icon: 'success', title: res.data.message, showConfirmButton: false, timer: 3000 });  
         console.log(res.data.message);
@@ -142,7 +143,7 @@ function SalesPage() {
     } 
     function updateData(cant, precio, id) {  
         Productos.map( product => {            
-            if(product.Id_Producto == id) {
+            if(product.Id_Producto === id) {
                 product.Cantidad = cant;
                 product.Total = precio * cant;                  
                 updateValorTotal();              
@@ -159,11 +160,12 @@ function SalesPage() {
     function deleteDataArray(id) {
         let indice;
         for (let i = 0; i < Productos.length; i++) {
-            if(Productos[i].Id_Producto == id) {
+            if(Productos[i].Id_Producto === id) {
                 indice = i; break;
             }            
         }
         Productos.splice(indice, 1);
+        updateValorTotal();
         setRender(render +1);
     }
     return (
@@ -198,9 +200,11 @@ function SalesPage() {
                     </div>
                     <div className="col-md-6">
                         <label htmlFor="inputState" className="form-label">Agregar Productos</label>
-                        <select id="inputState" className="form-select" onChange={ e => dataAdd(e.target.value) } >
+                        <select id="inputState" className="form-select" onChange={ (e) => { dataAdd(e.target.value); setTableMain(true); } } >
                             <option defaultValue>Elige los Productos de la lista...</option>
-                            { dataProducts.map( product => <option value={ product.Id_Producto }>{ product.Nombre }</option> )}
+                            { dataProducts.map( product => 
+                                product.Estado === "Disponible" ? <option value={ product.Id_Producto }>{ product.Nombre }</option> : null
+                            ) }
                         </select>
                     </div>
                     <div className="col-md-12">
@@ -213,13 +217,13 @@ function SalesPage() {
                                         <th>Nombre</th>                                    
                                         <th>Descripcion de Producto</th>     
                                         <th>Cantidad</th>                       
-                                        <th>Vlr. Unit.</th>
+                                        <th>Precio</th>
                                         <th>Vlr. Total</th>
                                         <th>Accion</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                { Productos.map( product => 
+                                { tableMain ? Productos.map( product => 
                                     <tr> 
                                         <th>{ product.Id_Producto }</th>                                    
                                         <td>{ product.Nombre }</td>
@@ -235,7 +239,7 @@ function SalesPage() {
                                             </button>
                                         </td>
                                     </tr>
-                                ) }                                    
+                                ) : null }                                    
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -253,7 +257,7 @@ function SalesPage() {
                     </div>
                     <div className="col-md-6">
                         <label htmlFor="inputNomClient" className="form-label">Nombre de Cliente</label>
-                        <input type="text" className="form-control" id="inputNomClient" 
+                        <input type="text" autoComplete="none" className="form-control" id="inputNomClient"
                             onChange={ e => setNom_Cliente(e.target.value) } />
                     </div> 
                     <div className="col-md-6">
@@ -263,7 +267,7 @@ function SalesPage() {
                     </div>
                     <div className="col-md-6">
                         <label htmlFor="inputNomVend" className="form-label">Nombre de Vendedor</label>
-                        <input type="text" className="form-control" id="inputNomVend" 
+                        <input type="text" autoComplete="none" className="form-control" id="inputNomVend" 
                             onChange={ e => setNom_Vendedor(e.target.value) } />
                     </div> 
                     <div className="col-md-6">
@@ -324,7 +328,7 @@ function SalesPage() {
                                     <td>{ sale.Estado_Venta }</td>
                                     <td>
                                         <button className="btnEditSales" data-bs-toggle="modal" data-bs-target="#modalEdit" onClick={ () => { 
-                                            addSetProductos(sale.Id_Venta); setId_Venta(sale.Id_Venta); setFecha_Venta(sale.Fecha_Venta);
+                                            addSetProductos(sale.Id_Venta); setId_Venta(sale.Id_Venta); setFecha_Venta(sale.Fecha_Venta); setTableMain(false);
                                             setValor_Total(sale.Valor_Total); setId_Cliente(sale.Id_Cliente); setNom_Cliente(sale.Nom_Cliente);
                                             setId_Vendedor(sale.Id_Vendedor); setNom_Vendedor(sale.Nom_Vendedor); setEstado_Venta(sale.Estado_Venta); } } >                                        
                                             <img id="btnEditSales" className="iconsEditSales" src={ IconEdit } alt="Editar" title="Edit"/>                                            
@@ -353,10 +357,10 @@ function SalesPage() {
                                             <td>{ sale.Nom_Vendedor }</td>
                                             <td>{ sale.Estado_Venta }</td>
                                             <td>
-                                                <button className="btnEditSales" data-bs-toggle="modal" data-bs-target="#modalEdit" 
-                                                    onClick={ () => { addSetProductos(sale.Id_Venta); setId_Venta(sale.Id_Venta); setFecha_Venta(sale.Fecha_Venta);
-                                                        setValor_Total(sale.Valor_Total); setId_Cliente(sale.Id_Cliente); setNom_Cliente(sale.Nom_Cliente);
-                                                        setId_Vendedor(sale.Id_Vendedor); setNom_Vendedor(sale.Nom_Vendedor); setEstado_Venta(sale.Estado_Venta); } } >                                        
+                                                <button className="btnEditSales" data-bs-toggle="modal" data-bs-target="#modalEdit" onClick={ () => { 
+                                                    addSetProductos(sale.Id_Venta); setId_Venta(sale.Id_Venta); setFecha_Venta(sale.Fecha_Venta); setTableMain(false);
+                                                    setValor_Total(sale.Valor_Total); setId_Cliente(sale.Id_Cliente); setNom_Cliente(sale.Nom_Cliente);
+                                                    setId_Vendedor(sale.Id_Vendedor); setNom_Vendedor(sale.Nom_Vendedor); setEstado_Venta(sale.Estado_Venta); } } >                                        
                                                     <img id="btnEditSales" className="iconsEditSales" src={ IconEdit } alt="Editar" title="Edit"/>                                            
                                                 </button>
                                                 <button className="btnEditSales" onClick={ () => { deletSale( sale.Id_Venta ); } }>
@@ -375,9 +379,9 @@ function SalesPage() {
                                                 <table className="table table-success table-sm table-striped">
                                                     <thead>
                                                         <tr id="init" className="table-success">
-                                                            <th>ID Producto</th>                                    
+                                                            <th>ID</th>                                    
                                                             <th>Nombre</th>                                    
-                                                            <th>Descripcion Producto</th>     
+                                                            <th>Descripcion de Producto</th>     
                                                             <th>Cantidad</th>                       
                                                             <th>Precio</th>
                                                             <th>Total</th>
@@ -408,7 +412,8 @@ function SalesPage() {
                                         <div className="modal-content">
                                             <div id="headColor" className="modal-header">
                                                 <h5 className="modal-title" id="exampleModalLabel">Editar Venta Realizada</h5>
-                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                                    onClick={ () => { setProductos([]); setValor_Total(0) } }></button>
                                             </div>
                                             <div className="modal-body"> 
                                                 <form className="row g-3 m-4 mt-2">
@@ -439,7 +444,7 @@ function SalesPage() {
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                { Productos.map( product => 
+                                                                { !tableMain ? Productos.map( product => 
                                                                     <tr> 
                                                                         <th>{ product.Id_Producto }</th>                                    
                                                                         <td>{ product.Nombre }</td>
@@ -456,7 +461,7 @@ function SalesPage() {
                                                                             </button>
                                                                         </td>
                                                                     </tr>
-                                                                ) }                                    
+                                                                ) : null }                                    
                                                                 </tbody>
                                                                 <tfoot>
                                                                     <tr>
@@ -502,9 +507,11 @@ function SalesPage() {
                                                 </form>
                                             </div>
                                             <div className="modal-footer">
-                                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" 
+                                                    onClick={ () => { setProductos([]); setValor_Total(0) } }> Cancelar
+                                                </button>
                                                 <button type="submit" className="btn btn-success" data-bs-dismiss="modal" 
-                                                    onClick={ updateSale }>Actualizar</button>
+                                                    onClick={ () => { updateSale(); setProductos([]); setValor_Total(0); } }>Actualizar</button>
                                             </div>
                                         </div>
                                     </div>

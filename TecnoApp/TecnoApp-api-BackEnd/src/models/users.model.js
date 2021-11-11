@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const UsuarioSchema = Schema({
-    Codigo: { type: Number, require: true },
+    Codigo: { type: String, require: true },
     Nombre: { type: String, require: true },
     Email: { type: String, require: true },
     Rol: { type: String, require: true },
