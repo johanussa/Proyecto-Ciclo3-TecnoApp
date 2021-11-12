@@ -19,9 +19,10 @@ function ProductsPage() {
     const [Estado, setEstado] = useState('');
     const [findMany, setFindMany] = useState(true);
     const [findOne, setFindOne] = useState(false);
+    const UrlPage = "https://tecnoapp-misiontic.herokuapp.com";
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/productos')
+        axios.get(`${UrlPage}/api/productos`)
         .then(res => {
             const products = res.data.productos;
             setState( products );          
@@ -37,7 +38,7 @@ function ProductsPage() {
         setFlagID(true);
     } 
     const showOneProduct = async () => {
-        await axios.get('http://localhost:3001/api/productos/' + Id_Producto)
+        await axios.get(`${UrlPage}/api/productos/` + Id_Producto)
         .then(res => {
             let product = [];
             product.push(res.data.productoBD);                      
@@ -52,7 +53,7 @@ function ProductsPage() {
     }
     const addProduct = async () => {
         const productNew = { Id_Producto, Nombre, Descripcion, Precio, Estado };
-        await axios.post('http://localhost:3001/api/productos', productNew)
+        await axios.post(`${UrlPage}/api/productos`, productNew)
         .then(res => {
             if(res.data.msg) {
                 Swal.fire({ icon: 'error', title: 'Oops...', text: res.data.message });
@@ -76,7 +77,7 @@ function ProductsPage() {
             if (result.isConfirmed) { confirmado(); }
           }); 
           const confirmado = async () => {
-            const res = await axios.delete(`http://localhost:3001/api/productos/${ id }`);      
+            const res = await axios.delete(`${UrlPage}/api/productos/${ id }`);      
             res.data.msg ? Swal.fire({ icon: 'error', title: 'Oops...', text: res.data.message }) : 
               Swal.fire({ icon: 'success', title: res.data.message, showConfirmButton: false, timer: 3000 });  
             setRender(render +1); setFindOne(false); setFindMany(true);
@@ -84,7 +85,7 @@ function ProductsPage() {
     }
     const updateProduct = async () => {
         const updateProduct = { Id_Producto, Nombre, Descripcion, Precio, Estado };
-        const res = await axios.put('http://localhost:3001/api/productos', updateProduct);
+        const res = await axios.put(`${UrlPage}/api/productos`, updateProduct);
         res.data.msg ? Swal.fire({ icon: 'error', title: 'Oops...', text: res.data.message }) : 
             Swal.fire({ icon: 'success', title: res.data.message, showConfirmButton: false, timer: 3000 });  
         console.log(res.data.message);

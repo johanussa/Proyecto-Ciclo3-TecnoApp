@@ -11,13 +11,13 @@ import ProductsPage from "./components/products/ProductsPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
   const [adminAut, setAdminAut] = useState(false);
   const [sellerAut, setSellerAut] = useState(false);
 
   useEffect(() => {
     if(isAuthenticated) {
-      axios.get('http://localhost:3001/api/usuarios')
+      axios.get('https://tecnoapp-misiontic.herokuapp.com/api/usuarios')
       .then(res => {        
           const users = res.data.users;
           users.map( usuario => {
@@ -37,7 +37,7 @@ function App() {
       title: 'Oops...',
       showConfirmButton: false,
       timer: isAuthenticated && adminAut ? 1 : false,
-      text: 'Tu NO estas autorizado para ingresar a esta area!!!',      
+      text: 'Tu NO estas autorizado para ing9resar a esta area!!!',      
       footer: isAuthenticated ? null : `<a href="/">Autenticate!!! Da Click aqui para iniciar Sesion</a>` 
     });
   }

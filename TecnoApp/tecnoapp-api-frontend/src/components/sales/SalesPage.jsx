@@ -28,9 +28,10 @@ function SalesPage() {
     const [Estado_Venta, setEstado_Venta] = useState('');  
     const [dataProducts, setDataProducts] = useState([]); 
     const [arrayProducts, setArrayProducts] = useState([]);     // Almacena los productos que traen las ventas
+    const UrlPage = "https://tecnoapp-misiontic.herokuapp.com";
 
     useEffect(() => { 
-        axios.get('http://localhost:3001/api/productos')
+        axios.get(`${UrlPage}/api/productos`)
         .then(res => {
             const products = res.data.productos;                      
             setDataProducts( products );          
@@ -39,7 +40,7 @@ function SalesPage() {
     }, [render]);
 
     useEffect(() => { 
-        axios.get('http://localhost:3001/api/gestionventas')
+        axios.get(`${UrlPage}/api/gestionventas`)
         .then(res => {
             const sales = res.data.ventas;                      
             setDataSales( sales );       
@@ -48,7 +49,7 @@ function SalesPage() {
     }, [renderSale]);
     
     const showOneSale = async () => {
-        await axios.get('http://localhost:3001/api/gestionventas/' + Id_Venta)
+        await axios.get(`${UrlPage}/api/gestionventas/` + Id_Venta)
         .then(res => {
             let venta = [];
             venta.push(res.data.venta);                      
@@ -64,7 +65,7 @@ function SalesPage() {
     const addSale = async() => {
         const newSale = { Id_Venta, Productos, Valor_Total, Fecha_Venta, Id_Cliente,
             Nom_Cliente, Id_Vendedor, Nom_Vendedor, Estado_Venta };
-        await axios.post('http://localhost:3001/api/gestionventas', newSale)
+        await axios.post(`${UrlPage}/api/gestionventas`, newSale)
         .then(res => {
             if(res.data.msg) { Swal.fire({ icon: 'error', title: 'Oops...', text: res.data.message }); }
             else { 
@@ -86,7 +87,7 @@ function SalesPage() {
             if (result.isConfirmed) { confirmado(); }
           }); 
           const confirmado = async () => {
-            const res = await axios.delete(`http://localhost:3001/api/gestionventas/${ id }`); 
+            const res = await axios.delete(`${UrlPage}/api/gestionventas/${ id }`); 
             if(res.data.msg) { Swal.fire({ icon: 'error', title: 'Oops...', text: res.data.message }); } 
             else {
                 Swal.fire({ icon: 'success', title: res.data.message, showConfirmButton: false, timer: 3000 });  
@@ -96,7 +97,7 @@ function SalesPage() {
     }
     const updateSale = async() => {
         const updateProduct = { Id_Venta, Productos, Valor_Total, Id_Vendedor, Nom_Vendedor, Estado_Venta };
-        const res = await axios.put('http://localhost:3001/api/gestionventas', updateProduct);
+        const res = await axios.put(`${UrlPage}/api/gestionventas`, updateProduct);
         res.data.msg ? Swal.fire({ icon: 'error', title: 'Oops...', text: res.data.message }) : 
             Swal.fire({ icon: 'success', title: res.data.message, showConfirmButton: false, timer: 3000 });  
         console.log(res.data.message);

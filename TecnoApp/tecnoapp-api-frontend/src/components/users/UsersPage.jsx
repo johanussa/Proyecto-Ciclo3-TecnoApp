@@ -17,10 +17,11 @@ function UsersPage() {
     const [Codigo, setCodigo] = useState(0);  
     const [findOne, setFindOne] = useState(false);
     const [findMany, setFindMany] = useState(true); 
-    const [stateOneUser, setStateOneUser] = useState([]);     
+    const [stateOneUser, setStateOneUser] = useState([]);
+    const UrlPage = "https://tecnoapp-misiontic.herokuapp.com";     
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/usuarios')
+        axios.get(`${UrlPage}/api/usuarios`)
         .then(res => {
             const users = res.data.users;
             setState( users );          
@@ -29,7 +30,7 @@ function UsersPage() {
     }, [render] );
     
     const showOnlyUser = async () => {
-        await axios.get('http://localhost:3001/api/usuarios/' + Codigo)
+        await axios.get(`${UrlPage}/api/usuarios/` + Codigo)
         .then(res => {
             let user = [];
             user.push(res.data.userBD);                      
@@ -44,7 +45,7 @@ function UsersPage() {
     }
     const updateUser = async () => {
         const updateUser = { Codigo, Rol, Estado };
-        const res = await axios.put('http://localhost:3001/api/usuarios', updateUser);
+        const res = await axios.put(`${UrlPage}/api/usuarios`, updateUser);
         res.data.msg ? Swal.fire({ icon: 'error', title: 'Oops...', text: res.data.message }) : 
             Swal.fire({ icon: 'success', title: res.data.message, showConfirmButton: false, timer: 3000 });  
         console.log(res.data.message);
@@ -65,7 +66,7 @@ function UsersPage() {
             if (result.isConfirmed) { confirmado(); }
           }); 
           const confirmado = async () => {
-            const res = await axios.delete(`http://localhost:3001/api/usuarios/${ id }`);      
+            const res = await axios.delete(`${UrlPage}/api/usuarios/${ id }`);      
             res.data.msg ? Swal.fire({ icon: 'error', title: 'Oops...', text: res.data.message }) : 
               Swal.fire({ icon: 'success', title: res.data.message, showConfirmButton: false, timer: 3000 });  
             setRender(render +1); setFindOne(false); setFindMany(true);
