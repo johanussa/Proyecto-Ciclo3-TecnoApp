@@ -159,7 +159,7 @@ function UsersPage() {
                                             <form className="row g-3">
                                                 <div className="col-md-5">
                                                     <label htmlFor="inputCodigo" className="form-control-sm">Codigo</label>
-                                                    <input type="number" className="form-control form-control-sm" id="inputCodigo" 
+                                                    <input type="text" className="form-control form-control-sm" id="inputCodigo" 
                                                         disabled value={ Codigo }></input>                                                
                                                 </div>
                                                 <div className="col-md-7">
@@ -199,13 +199,13 @@ function UsersPage() {
                                 </div>
                             </div>                                                                                        
                         </tbody>
-                    </table> 
+                    </table>  
                     { findOne ? 
                     <div class="d-grid gap-2 col-6 mx-auto">
                         <button class="btn btn-primary" type="reset" onClick={ () => { setFindOne( false ); setFindMany( true ); 
-                                setRender( render +1 ); } }>
+                                setRender( render +1 ); } }> 
                             Listar todos los Usuarios
-                        </button> <br />
+                        </button> 
                     </div> : null }   
                 </div>                                              
             </div> <br /><br />              

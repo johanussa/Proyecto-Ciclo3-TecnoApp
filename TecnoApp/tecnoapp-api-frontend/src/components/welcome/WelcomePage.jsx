@@ -7,20 +7,19 @@ function WelcomePage() {
 
     const { user, isAuthenticated } = useAuth0();                          
 
-    useEffect(() => {         
-        if(isAuthenticated) { 
-            let arrayCodigo = new Uint16Array(1);
-            window.crypto.getRandomValues(arrayCodigo);              
+    useEffect(() => {  
+        let arrayCodigo = new Uint16Array(1);
+        window.crypto.getRandomValues(arrayCodigo);         
+        if(isAuthenticated) {                         
             let Codigo = ('UR' + arrayCodigo[0]); let Nombre = user.name; let Email = user.email;
             let Rol = 'Pendiente'; let Estado = 'Pendiente';
             const newuser = { Codigo, Nombre, Email, Rol, Estado };
-            console.log(newuser);
             axios.post('http://localhost:3001/api/usuarios/' + Email, newuser)
             .then(res => {
                 res.data.msg ? console.log(res.data.message) : console.log(res.data.message); 
             });
-        };             
-    }, []);
+        };           
+    }, [isAuthenticated, user]);
 
     return (
         <div id="bodyWelcome"> <br /><br /><br /><br />

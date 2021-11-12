@@ -67,7 +67,8 @@ function SalesPage() {
         await axios.post('http://localhost:3001/api/gestionventas', newSale)
         .then(res => {
             if(res.data.msg) { Swal.fire({ icon: 'error', title: 'Oops...', text: res.data.message }); }
-            else { Swal.fire({ icon: 'success', title: res.data.message, showConfirmButton: false, timer: 3000 }); 
+            else { 
+                Swal.fire({ icon: 'success', title: res.data.message, showConfirmButton: false, timer: 3000 }); 
                 setProductos([]); setRenderSale(renderSale +1); setValor_Total(0); }            
         });
     }
@@ -112,16 +113,12 @@ function SalesPage() {
     } 
     function showProducts(id) {
         dataSales.forEach(element => {
-            if(element.Id_Venta == id){
-                setArrayProducts(element.Productos);
-            }
+            if(element.Id_Venta == id){ setArrayProducts(element.Productos); }
         }); 
     }
     function addSetProductos(id) {
         dataSales.forEach(element => {
-            if(element.Id_Venta == id){
-                setProductos(element.Productos);
-            }
+            if(element.Id_Venta == id){ setProductos(element.Productos); }
         });
     }
     function dataAdd(id) {
@@ -152,17 +149,13 @@ function SalesPage() {
     }
     function updateValorTotal(){
         let contador = 0;
-        Productos.forEach(element => {
-            contador += element.Total;
-        });        
+        Productos.forEach(element => { contador += element.Total; });        
         setValor_Total(contador);
     }
     function deleteDataArray(id) {
         let indice;
         for (let i = 0; i < Productos.length; i++) {
-            if(Productos[i].Id_Producto === id) {
-                indice = i; break;
-            }            
+            if(Productos[i].Id_Producto === id) { indice = i; break; }            
         }
         Productos.splice(indice, 1);
         updateValorTotal();
@@ -200,10 +193,12 @@ function SalesPage() {
                     </div>
                     <div className="col-md-6">
                         <label htmlFor="inputState" className="form-label">Agregar Productos</label>
-                        <select id="inputState" className="form-select" onChange={ (e) => { dataAdd(e.target.value); setTableMain(true); } } >
-                            <option defaultValue>Elige los Productos de la lista...</option>
+                        <select id="inputState" className="form-select" onChange={ (e) => { dataAdd(e.target.value); 
+                                setTableMain(true); } } defaultValue="" required >
+                            <option disabled value="">Elige los Productos de la lista...</option>
                             { dataProducts.map( product => 
-                                product.Estado === "Disponible" ? <option value={ product.Id_Producto }>{ product.Nombre }</option> : null
+                                product.Estado === "Disponible" ? 
+                                    <option value={ product.Id_Producto }>{ product.Nombre }</option> : null
                             ) }
                         </select>
                     </div>
@@ -277,8 +272,8 @@ function SalesPage() {
                     </div> 
                     <div className="col-md-6">
                         <label htmlFor="inputEstado" className="form-label">Estado de la venta</label>
-                        <select id="inputEstado" className="form-select" onChange={ e => setEstado_Venta(e.target.value) }>
-                            <option defaultValue>Elige el estado actual de la venta...</option>
+                        <select id="inputEstado" className="form-select" defaultValue="" onChange={ e => setEstado_Venta(e.target.value) }>
+                            <option disabled value="">Elige el estado actual de la venta...</option>
                             <option value="En Proceso">En Proceso</option>
                             <option value="Cancelada">Cancelada</option>
                             <option value="Realizada">Realizada</option>
@@ -288,7 +283,9 @@ function SalesPage() {
                         <button className="btn btn-success setBtnSales" type="reset" >Limpiar Campos</button>                        
                     </div>   
                     <div id="div2Sale" className="setDivSales col-md-6 mt-5">
-                        <button className="btn btn-secondary setBtnSales" type="button" onClick={ () => { addSale(); setFlagID(false); }  }>Registrar Venta</button>                         
+                        <button className="btn btn-secondary setBtnSales" type="button" onClick={ () => { addSale(); setFlagID(false); } }>
+                            Registrar Venta
+                        </button>                         
                     </div>   
                 </form>
                 <div className="container border">
@@ -328,9 +325,10 @@ function SalesPage() {
                                     <td>{ sale.Estado_Venta }</td>
                                     <td>
                                         <button className="btnEditSales" data-bs-toggle="modal" data-bs-target="#modalEdit" onClick={ () => { 
-                                            addSetProductos(sale.Id_Venta); setId_Venta(sale.Id_Venta); setFecha_Venta(sale.Fecha_Venta); setTableMain(false);
-                                            setValor_Total(sale.Valor_Total); setId_Cliente(sale.Id_Cliente); setNom_Cliente(sale.Nom_Cliente);
-                                            setId_Vendedor(sale.Id_Vendedor); setNom_Vendedor(sale.Nom_Vendedor); setEstado_Venta(sale.Estado_Venta); } } >                                        
+                                            addSetProductos(sale.Id_Venta); setId_Venta(sale.Id_Venta); setFecha_Venta(sale.Fecha_Venta); 
+                                            setTableMain(false); setValor_Total(sale.Valor_Total); setId_Cliente(sale.Id_Cliente); 
+                                            setNom_Cliente(sale.Nom_Cliente); setId_Vendedor(sale.Id_Vendedor); setNom_Vendedor(sale.Nom_Vendedor); 
+                                            setEstado_Venta(sale.Estado_Venta); } } >                                        
                                             <img id="btnEditSales" className="iconsEditSales" src={ IconEdit } alt="Editar" title="Edit"/>                                            
                                         </button>
                                         <button className="btnEditSales" onClick={ () => { deletSale( sale.Id_Venta ); } }>
@@ -358,9 +356,10 @@ function SalesPage() {
                                             <td>{ sale.Estado_Venta }</td>
                                             <td>
                                                 <button className="btnEditSales" data-bs-toggle="modal" data-bs-target="#modalEdit" onClick={ () => { 
-                                                    addSetProductos(sale.Id_Venta); setId_Venta(sale.Id_Venta); setFecha_Venta(sale.Fecha_Venta); setTableMain(false);
-                                                    setValor_Total(sale.Valor_Total); setId_Cliente(sale.Id_Cliente); setNom_Cliente(sale.Nom_Cliente);
-                                                    setId_Vendedor(sale.Id_Vendedor); setNom_Vendedor(sale.Nom_Vendedor); setEstado_Venta(sale.Estado_Venta); } } >                                        
+                                                    addSetProductos(sale.Id_Venta); setId_Venta(sale.Id_Venta); setFecha_Venta(sale.Fecha_Venta); 
+                                                    setTableMain(false); setValor_Total(sale.Valor_Total); setId_Cliente(sale.Id_Cliente); 
+                                                    setNom_Cliente(sale.Nom_Cliente); setId_Vendedor(sale.Id_Vendedor); 
+                                                    setNom_Vendedor(sale.Nom_Vendedor); setEstado_Venta(sale.Estado_Venta); } } >                                        
                                                     <img id="btnEditSales" className="iconsEditSales" src={ IconEdit } alt="Editar" title="Edit"/>                                            
                                                 </button>
                                                 <button className="btnEditSales" onClick={ () => { deletSale( sale.Id_Venta ); } }>
@@ -425,7 +424,8 @@ function SalesPage() {
                                                         <label className="m-1">Agregar Productos</label>
                                                         <select className="form-select" onChange={ e => dataAdd(e.target.value) } >
                                                             <option defaultValue>Elige los Productos de la lista...</option>
-                                                            { dataProducts.map( product => <option value={ product.Id_Producto }>{ product.Nombre }</option> )}
+                                                            { dataProducts.map( product => 
+                                                                <option value={ product.Id_Producto }>{ product.Nombre }</option> )}
                                                         </select>
                                                     </div>
                                                     <div className="col-md-12">
@@ -496,9 +496,9 @@ function SalesPage() {
                                                     </div> 
                                                     <div className="col-md-6">
                                                         <label htmlFor="inputEstado" className="m-1">Estado de la venta</label>
-                                                        <select id="inputEstado" className="form-select" 
+                                                        <select id="inputEstado" className="form-select" defaultValue=""
                                                             onChange={ e => setEstado_Venta(e.target.value) }>
-                                                            <option defaultValue>{ Estado_Venta }</option>
+                                                            <option disabled value="">{ Estado_Venta }</option>
                                                             <option value="En Proceso">En Proceso</option>
                                                             <option value="Cancelada">Cancelada</option>
                                                             <option value="Realizada">Realizada</option>
@@ -519,10 +519,10 @@ function SalesPage() {
                             </tbody>
                         </table>
                         { findOne ? 
-                        <div className="d-grid gap-2 col-6 mx-auto mt-5">
+                        <div className="d-grid gap-2 col-6 mx-auto">
                             <button className="btn btn-success" type="reset" onClick={ () => { setFindOne( false ); setShowAll( true ); } }>
                                 Listar todos las Ventas
-                            </button> <br />
+                            </button>
                         </div> : null } 
                     </div>
                 </div> <br />
