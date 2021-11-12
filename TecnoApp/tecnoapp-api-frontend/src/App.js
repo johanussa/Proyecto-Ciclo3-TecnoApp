@@ -37,7 +37,7 @@ function App() {
       title: 'Oops...',
       showConfirmButton: false,
       timer: isAuthenticated && adminAut ? 1 : false,
-      text: 'Tu NO estas autorizado para ing9resar a esta area!!!',      
+      text: 'Tu NO estas autorizado para ingresar a esta area!!!',      
       footer: isAuthenticated ? null : `<a href="/">Autenticate!!! Da Click aqui para iniciar Sesion</a>` 
     });
   }
