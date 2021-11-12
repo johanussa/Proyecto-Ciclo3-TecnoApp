@@ -136,8 +136,8 @@ function ProductsPage() {
                     </div>
                     <div className="col-md-6">
                         <label className="form-label">Estado del Producto</label>
-                        <select className="form-select"  onChange={ e => setEstado( e.target.value) }>
-                            <option defaultValue>Seleccione el estado</option>
+                        <select className="form-select" defaultValue="" onChange={ e => setEstado( e.target.value) }>
+                            <option disabled value="">Seleccione el estado</option>
                             <option value="Disponible">Disponible</option>
                             <option value="No Disponible">No Disponible</option>
                         </select>
@@ -146,7 +146,9 @@ function ProductsPage() {
                         <button className="btn btn-danger setBtnProducts" type="reset">Limpiar Campos</button>                        
                     </div>   
                     <div id="div2Product" className="setDivProducts col-md-6 mt-5">
-                        <button className="btn btn-secondary setBtnProducts" type="button" onClick={ addProduct }>Registrar Producto</button>                         
+                        <button className="btn btn-secondary setBtnProducts" type="button" onClick={ () => { addProduct(); setFlagID(false); } }>
+                            Registrar Producto
+                        </button>                         
                     </div>                                    
                 </form>
                 <div className="container border">
@@ -228,15 +230,15 @@ function ProductsPage() {
                                                         <input type="email" className="form-control form-control-sm" id="inputDes" 
                                                             value={ Descripcion } onChange={ e => setDescripcion( e.target.value ) }></input>
                                                     </div>
-                                                    <div className="col-md-6">
+                                                    <div className="col-md-5">
                                                         <label className="form-control-sm">Precio</label>
                                                         <input type="number" className="form-control form-control-sm" value={ Precio }
                                                             onChange={ e => setPrecio( e.target.value ) }></input>
                                                     </div>
-                                                    <div className="col-md-6">
+                                                    <div className="col-md-7">
                                                         <label className="form-control-sm">Estado</label>
-                                                        <select className="form-select form-select-sm" onChange={ e => setEstado( e.target.value ) } >              
-                                                            <option defaultValue>{ Estado }</option>
+                                                        <select className="form-select form-select-sm" defaultValue="" onChange={ e => setEstado( e.target.value ) } >              
+                                                            <option disabled value="">{ Estado } - Por Defecto</option>
                                                             <option value="Disponible">Disponible</option>
                                                             <option value="No Disponible">No Disponible</option>
                                                         </select>
@@ -245,7 +247,7 @@ function ProductsPage() {
                                             </div>
                                             <div className="modal-footer">
                                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" 
+                                                <button type="submit" className="btn btn-danger" data-bs-dismiss="modal" 
                                                     onClick={ updateProduct }>Actualizar</button>
                                             </div>
                                         </div>
@@ -254,11 +256,11 @@ function ProductsPage() {
                             </tbody>
                         </table>
                         { findOne ? 
-                            <div className="d-grid gap-2 col-6 mx-auto mt-5">
+                            <div className="d-grid gap-2 col-6 mx-auto">
                                 <button className="btn btn-danger" type="reset" onClick={ () => { setFindOne( false ); setFindMany( true ); 
                                         setRender( render +1 ); } }>
                                     Listar todos los Productos
-                                </button> <br />
+                                </button>
                             </div> : null }  
                     </div>                    
                 </div> <br />                

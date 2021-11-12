@@ -4,11 +4,11 @@
 #iconUser {
     width: 60px;
     float: left;
-    margin: 40px 20px 10px 0px;
+    margin: 40px 20px 10px -11px;
 }
 #titleGesUser {
     float: left;
-    margin: 45px 20px 10px 0px;
+    margin: 45px 20px 10px 3px;
     text-shadow: 1px 1px 3px rgb(53, 92, 150);    
 }
 .divTitleUser {
@@ -20,7 +20,7 @@
     background-color: rgb(248, 250, 252);
     border-bottom: none;
 }
-.nav-tabs {
+#navTabsUser {
     border-color: rgb(1, 54, 97);    
     margin-left: 55px;
     margin-right: 55px;
@@ -45,7 +45,7 @@
     position: relative;
     border: 1px solid rgb(1, 54, 97) !important;
     top: 70px;
-    left: -70px;    
+    left: -80px;    
 }
 #titleSearchUser {
     margin-top: 5px;

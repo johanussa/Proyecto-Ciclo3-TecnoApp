@@ -11,7 +11,7 @@ import ProductsPage from "./components/products/ProductsPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
-  const { user, isAuthenticated } = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const [adminAut, setAdminAut] = useState(false);
   const [sellerAut, setSellerAut] = useState(false);
 
@@ -35,8 +35,18 @@ function App() {
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
-      text: 'Tu NO estas autorizado para ingresar a esta area!!!',
+      showConfirmButton: false,
+      timer: isAuthenticated && adminAut ? 1 : false,
+      text: 'Tu NO estas autorizado para ingresar a esta area!!!',      
       footer: isAuthenticated ? null : `<a href="/">Autenticate!!! Da Click aqui para iniciar Sesion</a>` 
+    });
+  }
+  function showRol() {
+    Swal.fire({
+      icon: 'success',
+      title: `Binevenid@, ya  has sido registrado${ adminAut ? `. Eres un Administrador, puedes entrar a todas las opciones de esta aplicacion.` : 
+        sellerAut ? ', tu Rol es de Vendedor, puedes entrar a la seccion solo de gestion de ventas.' : 
+        ' Tu solicitud esta pendiente por ser autorizada, por ahora no puedes acceder a las herraminetas de esta aplicacion.'  }`
     });
   }
   return (    
@@ -44,7 +54,9 @@ function App() {
       { isAuthenticated ? <Navbar /> : null }      
       <Switch>
         <Route path="/" exact>
-          { isAuthenticated ? <WelcomePage /> : <LoginPage /> }</Route>
+          { isAuthenticated ? <WelcomePage /> : <LoginPage /> }
+          { isAuthenticated ? showRol() : null }
+        </Route>
         <Route path='/productos' exact>
           { isAuthenticated && adminAut ? <ProductsPage /> : () => { error(); } }
         </Route>

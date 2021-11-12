@@ -422,8 +422,8 @@ function SalesPage() {
                                                     </div>
                                                     <div className="col-md-6">
                                                         <label className="m-1">Agregar Productos</label>
-                                                        <select className="form-select" onChange={ e => dataAdd(e.target.value) } >
-                                                            <option defaultValue>Elige los Productos de la lista...</option>
+                                                        <select className="form-select" onChange={ e => dataAdd(e.target.value) } defaultValue="">
+                                                            <option disabled value="">Elige los Productos de la lista...</option>
                                                             { dataProducts.map( product => 
                                                                 <option value={ product.Id_Producto }>{ product.Nombre }</option> )}
                                                         </select>
@@ -498,7 +498,7 @@ function SalesPage() {
                                                         <label htmlFor="inputEstado" className="m-1">Estado de la venta</label>
                                                         <select id="inputEstado" className="form-select" defaultValue=""
                                                             onChange={ e => setEstado_Venta(e.target.value) }>
-                                                            <option disabled value="">{ Estado_Venta }</option>
+                                                            <option disabled value="">{ Estado_Venta } - Por Defecto</option>
                                                             <option value="En Proceso">En Proceso</option>
                                                             <option value="Cancelada">Cancelada</option>
                                                             <option value="Realizada">Realizada</option>

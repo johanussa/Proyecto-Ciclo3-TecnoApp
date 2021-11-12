@@ -87,7 +87,7 @@ function UsersPage() {
                 </div>             
             </div>
             <div className="divTitleUser">
-                <ul className="nav nav-tabs">
+                <ul id="navTabsUser" className="nav nav-tabs">
                     <li className="nav-item">
                         <span id="text" className="nav-link active" >Administracion de Cuentas</span>
                     </li>
@@ -167,23 +167,23 @@ function UsersPage() {
                                                     <input type="text" className="form-control form-control-sm" id="inputPass" 
                                                         disabled value={ Nombre }></input>
                                                 </div>
-                                                <div className="col-md-7">
+                                                <div className="col-md-6">
                                                     <label htmlFor="inputEmail" className="form-control-sm">Email</label>
                                                     <input type="email" className="form-control form-control-sm" id="inputEmail" 
                                                         disabled value={ Email }></input>
                                                 </div>
-                                                <div className="col-md-5">
+                                                <div className="col-md-6">
                                                     <label className="form-control-sm">Rol</label>
-                                                    <select className="form-select form-select-sm" onChange={ e => setRol( e.target.value) } >              
-                                                        <option defaultValue>{ Rol }</option>
+                                                    <select className="form-select form-select-sm" defaultValue="" onChange={ e => setRol( e.target.value) } >              
+                                                        <option disabled value="">{ Rol } - Por Defecto</option>
                                                         <option value="Administrador">Administrador</option>
                                                         <option value="Vendedor">Vendedor</option>
                                                     </select>
                                                 </div>
                                                 <div>
                                                     <label className="form-control-sm">Estado</label>
-                                                    <select className="form-select form-select-sm" onChange={ e => setEstado( e.target.value ) } >              
-                                                        <option defaultValue>{ Estado }</option>
+                                                    <select className="form-select form-select-sm" defaultValue="" onChange={ e => setEstado( e.target.value ) } >              
+                                                        <option disabled value="">{ Estado } - Por Defecto</option>
                                                         <option value="Autorizado">Autorizado</option>
                                                         <option value="No Autorizado">No Autorizado</option>
                                                     </select>
