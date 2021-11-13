@@ -14,7 +14,7 @@ function WelcomePage() {
             let Codigo = ('UR' + arrayCodigo[0]); let Nombre = user.name; let Email = user.email;
             let Rol = 'Pendiente'; let Estado = 'Pendiente';
             const newuser = { Codigo, Nombre, Email, Rol, Estado };
-            axios.post('http://localhost:3001/api/usuarios/' + Email, newuser)
+            axios.post('https://tecnoapp-misiontic.herokuapp.com/api/usuarios/' + Email, newuser)
             .then(res => {
                 res.data.msg ? console.log(res.data.message) : console.log(res.data.message); 
             });
